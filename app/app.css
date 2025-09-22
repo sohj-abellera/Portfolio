@@ -13,3 +13,21 @@ body {
     color-scheme: dark;
   }
 }
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.futuristic-screen {  /* whatever your screen div’s class is */
+  width: 100vw;
+  height: 100vh;
+  background-color: black; /* or whatever color */
+  /* disable any default borders or shadows */
+  border: none;
+  box-shadow: none;
+}
+

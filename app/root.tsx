@@ -45,13 +45,14 @@ export default function App() {
   return (
     <div className="relative min-h-screen text-white">
       <Starfield />
-      {/* Main site content (already there) */}
-      <div className="relative z-10 p-8">
+      {/* Main site content */}
+      <div className="relative z-10">
         <Outlet />
       </div>
     </div>
   );
 }
+
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   let message = "Oops!";
