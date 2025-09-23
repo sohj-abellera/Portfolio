@@ -76,18 +76,45 @@ function extendPoint(
   return [x1 + ux * length, y1 + uy * length];
 }
 
+interface InnerPolygonConfig {
+  margins: Margins;
+  cut: number;
+}
+
 interface TabletScreenProps {
   baseColor?: string;
   layer1Color?: string;
   layer2Color?: string;
+
+  /**
+   * Each inner polygon can now define its own margins and cut.
+   */
+  innerPolygons?: InnerPolygonConfig[];
+
+  /**
+   * Optional margins for the outer polygon (overrides constants inside file).
+   */
+  outerMargins?: Margins;
+  outerCut?: number;
 }
 
 export default function TabletScreen({
   baseColor = "white",
   layer1Color = "white",
   layer2Color = "red",
+  innerPolygons = [
+    { margins: { top: 6, right: 6, bottom: 6, left: 6 }, cut: 6 },
+    { margins: { top: 12, right: 12, bottom: 12, left: 12 }, cut: 6 },
+  ],
+  outerMargins,
+  outerCut = 8,
 }: TabletScreenProps) {
-  const outerPoints = makeOctagon(8, { top: 2, right: 2, bottom: 2, left: 2 });
+  // Default outer margins (can be overridden via props)
+  const defaultOuterMargins: Margins = { top: 7, right: 9, bottom: 7, left: 7 };
+  const om = outerMargins ?? defaultOuterMargins;
+
+  // Main outer polygon
+  const outerPoints = makeOctagon(outerCut, om);
   const outerCoords = getPointsArray(outerPoints);
 
   // Stroke thickness
@@ -95,7 +122,7 @@ export default function TabletScreen({
   const thickStroke1 = 3;
   const thickStroke2 = 6;
 
-  // Layer 1: edge anchored (your original logic, unchanged)
+  // Layer 1: edge anchored
   const edgeExtends1: Record<number, { back: number; forward: number }> = {
     1: { back: 9, forward: 7 },
     3: { back: 7, forward: 9 },
@@ -130,13 +157,23 @@ export default function TabletScreen({
     },
   };
 
+  // Build inner polygons using margins + cut
+  const innerPolygonsPoints = innerPolygons.map(({ margins, cut }) =>
+    makeOctagon(cut, {
+      top: (om.top ?? 0) + (margins.top ?? 0),
+      right: (om.right ?? 0) + (margins.right ?? 0),
+      bottom: (om.bottom ?? 0) + (margins.bottom ?? 0),
+      left: (om.left ?? 0) + (margins.left ?? 0),
+    })
+  );
+
   return (
     <svg
       className="w-[calc(100%-40px)] h-[calc(100%-20px)] mt-[10px] ml-[20px]"
       viewBox="0 0 100 100"
       preserveAspectRatio="none"
     >
-      {/* Base thin outline */}
+      {/* Base thin outline (outer) */}
       <polygon
         points={outerPoints}
         fill="none"
@@ -144,6 +181,18 @@ export default function TabletScreen({
         strokeWidth={thinStroke}
         vectorEffect="non-scaling-stroke"
       />
+
+      {/* Inner polygons (now with per-side margins + cut) */}
+      {innerPolygonsPoints.map((pts, idx) => (
+        <polygon
+          key={`inner-${idx}`}
+          points={pts}
+          fill="none"
+          stroke={idx === 0 ? layer1Color : layer2Color}
+          strokeWidth={thinStroke}
+          vectorEffect="non-scaling-stroke"
+        />
+      ))}
 
       {/* Layer 1 — edge anchored */}
       {outerCoords.map(([x1, y1], i) => {
