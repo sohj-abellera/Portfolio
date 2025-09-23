@@ -1,6 +1,5 @@
 // app/routes/home.tsx
 import type { Route } from "./+types/home";
-import OnloadScreen from "../components/OnloadScreen";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -11,8 +10,8 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   return (
-    <div className="w-screen h-screen bg-black flex items-center justify-center relative">
-      <OnloadScreen />
+    <div className="w-screen h-screen bg-transparent">
+      {/* Empty for now */}
     </div>
   );
 }
