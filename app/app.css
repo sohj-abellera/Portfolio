@@ -31,3 +31,13 @@ html, body, #root {
   box-shadow: none;
 }
 
+/* app/styles/app.css */
+
+.clip-top {
+  clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+}
+
+.clip-bottom {
+  clip-path: polygon(5% 0, 95% 0, 100% 100%, 0 100%);
+}
+
