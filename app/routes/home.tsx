@@ -1,6 +1,8 @@
 import type { Route } from "./+types/home";
-import OnloadScreen from "~/components/OnloadScreen";
+import OnloadScreen from "~/sections/OnLoadScreen";
 import Starfield from "~/components/Starfield";
+import Introduction from "~/sections/Introduction"; 
+import Projects from "~/sections/Projects";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -10,13 +12,22 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+  const showOnload = false; 
+
   return (
-    <div className="w-screen h-screen bg-black relative overflow-hidden">
-      {/* Onload screen always shown */}
-      <OnloadScreen text="Welcome to my Portfolio Website.😇" />
+    <div className="w-screen min-h-screen bg-black relative">
+      {showOnload && (
+        <OnloadScreen text="Welcome to my Portfolio Website.😇" />
+      )}
 
       {/* Starfield background */}
       <Starfield />
+
+      {/* Main Sections */}
+      <div className="relative z-10">
+        <Introduction />
+        <Projects />
+      </div>
     </div>
   );
 }
