@@ -31,8 +31,6 @@ html, body {
   padding: 0;
   width: 100%;
   min-height: 100%;
-  height: auto;
-  overflow-y: scroll; /* keeps scrolling */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
 }
