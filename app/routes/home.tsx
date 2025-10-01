@@ -15,7 +15,7 @@ export default function Home() {
   const showOnload = false; 
 
   return (
-    <div className="w-screen min-h-screen bg-black relative">
+    <div className="w-screen min-h-screen">
       {showOnload && (
         <OnloadScreen text="Welcome to my Portfolio Website.😇" />
       )}

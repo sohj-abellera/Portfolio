@@ -2,22 +2,21 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="h-screen w-full bg-gray-900 text-white flex flex-col items-center justify-center snap-start px-[120px]"
+      className="relative z-10 w-full h-[300vh] mt-16
+                 bg-blue-950/15 backdrop-blur-[30px] 
+                 border-t border-b border-white/20"
     >
-      <h2 className="text-4xl font-bold mb-10">Projects</h2>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
-        {/* Example Project Card */}
-        <div className="bg-gray-800 p-6 rounded-xl shadow-lg hover:scale-105 transition-transform">
-          <h3 className="text-2xl font-semibold mb-2">Project 1</h3>
-          <p className="text-gray-400">Short description of the project.</p>
+      <h2 className="text-5xl font-bold text-center text-white mt-20 mb-30">
+        Projects
+      </h2>
+        <div className="w-185 h-90 rounded-2xl overflow-hidden border border-white/20 sticky top-24 ">
+          <img
+            src="/sample website.PNG"
+            alt="Project preview"
+            className="w-full h-full object-cover"
+          />
         </div>
 
-        <div className="bg-gray-800 p-6 rounded-xl shadow-lg hover:scale-105 transition-transform">
-          <h3 className="text-2xl font-semibold mb-2">Project 2</h3>
-          <p className="text-gray-400">Short description of the project.</p>
-        </div>
-      </div>
     </section>
   );
 }
