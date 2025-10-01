@@ -22,22 +22,4 @@ html, body, #root {
   overflow: hidden;
 }
 
-.futuristic-screen {  /* whatever your screen div’s class is */
-  width: 100vw;
-  height: 100vh;
-  background-color: black; /* or whatever color */
-  /* disable any default borders or shadows */
-  border: none;
-  box-shadow: none;
-}
-
-/* app/styles/app.css */
-
-.clip-top {
-  clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
-}
-
-.clip-bottom {
-  clip-path: polygon(5% 0, 95% 0, 100% 100%, 0 100%);
-}
 
