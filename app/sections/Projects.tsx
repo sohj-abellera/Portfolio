@@ -14,12 +14,13 @@ export default function Projects() {
         setIsSticky(rect.top <= 80);
       }
 
-      // Check which project is closest to top
+      // detect active project
       let current = 0;
       projectRefs.current.forEach((ref, idx) => {
         if (ref) {
           const rect = ref.getBoundingClientRect();
-          if (rect.top <= 100) {
+          // threshold: when project is near middle of viewport
+          if (rect.top <= window.innerHeight * 0.4) {
             current = idx;
           }
         }
@@ -35,7 +36,7 @@ export default function Projects() {
   const projects = [
     {
       title: "Project One",
-      desc: "A short description line for project one.",
+      desc: "A short description line that gives some context about this project.",
     },
     {
       title: "Project Two",
@@ -43,7 +44,7 @@ export default function Projects() {
     },
     {
       title: "Project Three",
-      desc: "Something about project three.",
+      desc: "Some description for project three.",
     },
   ];
 
@@ -60,14 +61,15 @@ export default function Projects() {
         Projects
       </h2>
 
-      <div className="flex items-start gap-10 mt-10 h-[400vh]">
+      {/* Flex row: image on left, content on right */}
+      <div className="flex items-start gap-10 mt-10 h-[300vh]">
         {/* IMAGE */}
         <div
           ref={imageRef}
           className={`rounded-[10px] overflow-hidden mr-[30px]
                       border border-white/20 sticky top-20
                       transition-all duration-500 ease-in-out
-                      ${isSticky ? "w-[690px] h-[340px]" : "w-[528px] h-[260px]"}`}
+                      ${isSticky ? "w-[700px] h-[340px]" : "w-[528px] h-[260px]"}`}
         >
           <img
             src="/sample website.PNG"
@@ -77,15 +79,14 @@ export default function Projects() {
         </div>
 
         {/* TEXT CONTENT */}
-        <div className="flex-1 text-white relative">
+        <div className="flex-1 text-white space-y-20">
+          <h3 className="text-6xl font-extrabold mb-10">Let's dive in</h3>
+
           {projects.map((p, idx) => (
             <div
               key={idx}
-              ref={(el) => (projectRefs.current[idx] = el)}
-              className={`transition-all duration-500
-                ${activeIndex === idx
-                  ? "sticky top-20 mb-40 text-white"
-                  : "text-gray-400/70"} `}
+              ref={(el) => { projectRefs.current[idx] = el; }}
+              className={activeIndex === idx ? "text-white" : "text-gray-400/70"}
             >
               <h3 className="text-2xl font-bold mb-2">{p.title}</h3>
               <p className="text-sm italic mb-4">{p.desc}</p>
