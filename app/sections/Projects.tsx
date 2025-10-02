@@ -12,7 +12,9 @@ export default function Projects({ projects }: { projects: Project[] }) {
   const [isSticky, setIsSticky] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [blink, setBlink] = useState(false); // 👈 for fade-out/fade-in
+  const [blink, setBlink] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
 
   const projectRefs = useRef<(HTMLDivElement | null)[]>([]);
   const startX = useRef<number | null>(null);
@@ -23,10 +25,9 @@ export default function Projects({ projects }: { projects: Project[] }) {
         const rect = imageRef.current.getBoundingClientRect();
         const stickyNow = rect.top <= 80;
 
-        // only trigger blink when sticky state changes
         if (stickyNow !== isSticky) {
           setBlink(true);
-          setTimeout(() => setBlink(false), 200); // quick fade back in
+          setTimeout(() => setBlink(false), 200);
         }
 
         setIsSticky(stickyNow);
@@ -42,7 +43,6 @@ export default function Projects({ projects }: { projects: Project[] }) {
         }
       });
       setActiveIndex(current);
-      setActiveImageIndex(0);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -52,26 +52,65 @@ export default function Projects({ projects }: { projects: Project[] }) {
 
   const currentProject = projects[activeIndex];
 
-  // swipe / drag
+  // --- DRAG SWIPE ---
   const handleMouseDown = (e: React.MouseEvent) => {
     startX.current = e.clientX;
+    setIsDragging(true);
   };
 
-  const handleMouseUp = (e: React.MouseEvent) => {
-    if (startX.current === null) return;
+  // 🔥 Global listeners for drag outside container
+  useEffect(() => {
+  const handleGlobalMouseMove = (e: MouseEvent) => {
+    if (!isDragging || startX.current === null) return;
+
     const diff = e.clientX - startX.current;
 
-    if (Math.abs(diff) > 50) {
-      if (diff < 0) {
-        setActiveImageIndex((prev) =>
-          prev < currentProject.imgs.length - 1 ? prev + 1 : prev
-        );
-      } else {
-        setActiveImageIndex((prev) => (prev > 0 ? prev - 1 : prev));
-      }
+    // container width (safe fallback 1px to avoid div/0)
+    const containerWidth =
+      imageRef.current?.offsetWidth ?? 1;
+    const maxDrag = containerWidth * 0.2; // 20%
+
+    // if at first image and dragging right -> clamp
+    if (activeImageIndex === 0 && diff > 0) {
+      setDragOffset(Math.min(diff, maxDrag));
     }
+    // if at last image and dragging left -> clamp
+    else if (
+      activeImageIndex === currentProject.imgs.length - 1 &&
+      diff < 0
+    ) {
+      setDragOffset(Math.max(diff, -maxDrag));
+    }
+    // normal behavior
+    else {
+      setDragOffset(diff);
+    }
+  };
+
+  const handleGlobalMouseUp = () => {
+    if (!isDragging) return;
+    const threshold = 100;
+
+    if (dragOffset < -threshold && activeImageIndex < currentProject.imgs.length - 1) {
+      setActiveImageIndex((prev) => prev + 1);
+    } else if (dragOffset > threshold && activeImageIndex > 0) {
+      setActiveImageIndex((prev) => prev - 1);
+    }
+
+    setIsDragging(false);
+    setDragOffset(0);
     startX.current = null;
   };
+
+  window.addEventListener("mousemove", handleGlobalMouseMove);
+  window.addEventListener("mouseup", handleGlobalMouseUp);
+
+  return () => {
+    window.removeEventListener("mousemove", handleGlobalMouseMove);
+    window.removeEventListener("mouseup", handleGlobalMouseUp);
+  };
+  }, [isDragging, dragOffset, activeImageIndex, currentProject.imgs.length]);
+
 
   return (
     <section
@@ -93,20 +132,31 @@ export default function Projects({ projects }: { projects: Project[] }) {
         {/* IMAGE CAROUSEL */}
         <div
           ref={imageRef}
-          className={`rounded-[10px] overflow-hidden mr-[30px]
-                      border border-white/20 sticky top-20
+          className={`rounded-[5px] overflow-hidden mr-[30px] sticky top-20
                       transition-all duration-500 ease-in-out
-                      cursor-pointer
+                      ${isDragging ? "cursor-grabbing" : "cursor-grab"}
                       ${isSticky ? "w-[700px] h-[340px]" : "w-[528px] h-[260px]"}`}
           onMouseDown={handleMouseDown}
-          onMouseUp={handleMouseUp}
         >
-          <img
-            key={activeIndex + "-" + activeImageIndex}
-            src={currentProject.imgs[activeImageIndex]}
-            alt={currentProject.title}
-            className="w-full h-full object-cover transition-opacity duration-500"
-          />
+          {/* Image track */}
+          <div
+            className={`flex h-full w-full
+              ${isDragging ? "" : "transition-transform duration-700 ease-out"}`}
+            style={{
+              transform: `translateX(calc(${-activeImageIndex * 100}% + ${dragOffset}px))`,
+            }}
+          >
+            {currentProject.imgs.map((src, idx) => (
+              <img
+                key={idx}
+                src={src}
+                alt={currentProject.title}
+                className="w-full h-full object-cover flex-shrink-0 select-none"
+                draggable={false}
+              />
+            ))}
+          </div>
+
 
           {/* INDICATORS */}
           <div className="flex justify-center gap-4 mt-3">
@@ -130,7 +180,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
             blink ? "opacity-0" : "opacity-100"
           }`}
         >
-          <h3 className="text-6xl font-extrabold mb-20">Let's dive in</h3>
+          <h3 className="text-6xl font-extrabold mb-14">Let's dive in</h3>
 
           {projects.map((p, idx) => (
             <div
@@ -147,11 +197,9 @@ export default function Projects({ projects }: { projects: Project[] }) {
               <div className="space-y-2 text-base">
                 {p.bullets.map((b, i) => (
                   <div key={i} className="flex items-start">
-                    {/* bullet */}
                     <div className="w-4 flex-shrink-0">
                       <span className="block w-2 h-2 mt-2 rounded-full bg-white" />
                     </div>
-                    {/* text */}
                     <div className="flex-1">{b}</div>
                   </div>
                 ))}
