@@ -130,49 +130,53 @@ export default function Projects({ projects }: { projects: Project[] }) {
         style={{ height: `${projects.length * 120}vh` }}
       >
         {/* IMAGE CAROUSEL */}
-        <div
-          ref={imageRef}
-          className={`rounded-[5px] overflow-hidden mr-[30px] sticky top-20
-                      transition-all duration-500 ease-in-out
-                      ${isDragging ? "cursor-grabbing" : "cursor-grab"}
-                      ${isSticky ? "w-[700px] h-[340px]" : "w-[528px] h-[260px]"}`}
-          onMouseDown={handleMouseDown}
-        >
-          {/* Image track */}
-          <div
-            className={`flex h-full w-full
-              ${isDragging ? "" : "transition-transform duration-700 ease-out"}`}
-            style={{
-              transform: `translateX(calc(${-activeImageIndex * 100}% + ${dragOffset}px))`,
-            }}
-          >
-            {currentProject.imgs.map((src, idx) => (
-              <img
-                key={idx}
-                src={src}
-                alt={currentProject.title}
-                className="w-full h-full object-cover flex-shrink-0 select-none"
-                draggable={false}
-              />
-            ))}
-          </div>
+{/* IMAGE CAROUSEL WRAPPER */}
+<div className="flex flex-col items-center mr-[30px] sticky top-20">
+  <div
+    ref={imageRef}
+    className={`rounded-[5px] overflow-hidden
+                transition-all duration-500 ease-in-out
+                ${isDragging ? "cursor-grabbing" : "cursor-grab"}
+                ${isSticky ? "w-[700px] h-[340px]" : "w-[528px] h-[260px]"}`}
+    onMouseDown={handleMouseDown}
+  >
+    {/* Image track */}
+    <div
+      className={`flex h-full w-full ${
+        isDragging ? "" : "transition-transform duration-700 ease-out"
+      }`}
+      style={{
+        transform: `translateX(calc(${-activeImageIndex * 100}% + ${dragOffset}px))`,
+      }}
+    >
+      {currentProject.imgs.map((src, idx) => (
+        <img
+          key={idx}
+          src={src}
+          alt={currentProject.title}
+          className="w-full h-full object-cover flex-shrink-0 select-none"
+          draggable={false}
+        />
+      ))}
+    </div>
+  </div>
 
+  {/* INDICATORS */}
+  <div className="flex justify-center gap-2 mt-3">
+    {currentProject.imgs.map((_, idx) => (
+      <button
+        key={idx}
+        onClick={() => setActiveImageIndex(idx)}
+        className={`h-2 rounded-full transition-all duration-300 ${
+          idx === activeImageIndex
+            ? "w-6 bg-white" // active = dash
+            : "w-2 bg-white/40 hover:bg-white/70" // inactive = dot
+        }`}
+      />
+    ))}
+  </div>
+</div>
 
-          {/* INDICATORS */}
-          <div className="flex justify-center gap-4 mt-3">
-            {currentProject.imgs.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setActiveImageIndex(idx)}
-                className={`h-2 w-2 rounded-full transition-all ${
-                  idx === activeImageIndex
-                    ? "w-6 bg-white"
-                    : "bg-gray-400/50 hover:bg-white/70"
-                }`}
-              />
-            ))}
-          </div>
-        </div>
 
         {/* TEXT CONTENT */}
         <div
