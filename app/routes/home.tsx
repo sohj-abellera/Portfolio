@@ -22,8 +22,8 @@ export default function Home() {
             initial={{ y: 0 }}
             exit={{ y: "-100%" }} // slides up
             transition={{ 
-              duration: 0.7, 
-              ease: "linear" // steady speed
+              duration: 0.8, 
+              ease: "easeInOut" 
             }}
             className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-10"
           >
@@ -32,7 +32,7 @@ export default function Home() {
               speed={50}
               onDone={() => {
                 setPhase("transition");
-                setTimeout(() => setPhase("main"), 700); 
+                setTimeout(() => setPhase("main"), 800); 
               }}
             />
           </motion.div>
@@ -48,8 +48,8 @@ export default function Home() {
             animate={{ y: "0%" }}   // slide in
             exit={{ y: 0 }}
             transition={{ 
-              duration: 0.9, // slightly longer
-              ease: [0.25, 1, 0.5, 1] // cubic-bezier easeOutQuint style
+              duration: 0.8, // match welcome duration
+              ease: "easeInOut" // same easing as welcome
             }}
             className="absolute w-full h-full flex z-10 px-26"
           >
