@@ -1,17 +1,18 @@
 import type { Route } from "./+types/home";
-import { ParallaxProvider, Parallax } from 'react-scroll-parallax';
+import Starfield from "../components/Starfield/Starfield";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Onload Screen" },
+    { title: "Portfolio" },
     { name: "description", content: "Full-screen sci-fi onload screen" },
   ];
 }
 
 export default function Home() {
-
   return (
-    <div className="w-screen min-h-screen">
+    <div className="w-screen min-h-screen text-white flex items-center justify-center">
+      {/* Background starfield */}
+      <Starfield />
     </div>
   );
 }
