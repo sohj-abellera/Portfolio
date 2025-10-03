@@ -1,6 +1,6 @@
 import type { Route } from "./+types/home";
 import Starfield from "../components/Starfield/Starfield";
-import Screen_1 from "../screens/Screen_1";
+import Screen_1 from "../screens/Welcome";
 
 export function meta({}: Route.MetaArgs) {
   return [

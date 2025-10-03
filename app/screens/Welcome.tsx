@@ -1,11 +1,13 @@
+//app/screens/Welcome.tsx
 import { useEffect, useRef, useState } from "react";
 
 type ScreenProps = {
   text: string;
-  speed?: number; // ms per character
+  speed?: number;
+  onDone?: () => void; // NEW
 };
 
-export default function Screen_1({ text, speed = 100 }: ScreenProps) {
+export default function Screen_1({ text, speed = 100, onDone }: ScreenProps) {
   const [displayed, setDisplayed] = useState("");
   const [isDone, setIsDone] = useState(false);
   const indexRef = useRef(0);
@@ -19,8 +21,11 @@ export default function Screen_1({ text, speed = 100 }: ScreenProps) {
     const tick = () => {
       const i = indexRef.current;
       if (i >= text.length) {
-        setIsDone(true); // typing finished
+        setIsDone(true);
         timeoutRef.current = null;
+
+        // fire callback after 500ms
+        if (onDone) setTimeout(onDone, 500);
         return;
       }
 
@@ -33,11 +38,9 @@ export default function Screen_1({ text, speed = 100 }: ScreenProps) {
     timeoutRef.current = window.setTimeout(tick, speed);
 
     return () => {
-      if (timeoutRef.current !== null) {
-        clearTimeout(timeoutRef.current);
-      }
+      if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
     };
-  }, [text, speed]);
+  }, [text, speed, onDone]);
 
   return (
     <div className="text-3xl font-mono whitespace-pre-wrap text-center">

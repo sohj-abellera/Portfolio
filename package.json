@@ -12,7 +12,7 @@
     "@react-router/node": "^7.7.1",
     "@react-router/serve": "^7.7.1",
     "@react-spring/parallax": "^10.0.3",
-    "framer-motion": "^12.23.15",
+    "framer-motion": "^12.23.22",
     "isbot": "^5.1.27",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
