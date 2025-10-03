@@ -11,9 +11,7 @@ export default function Home() {
     <div className="w-screen min-h-screen text-white flex items-center justify-center relative overflow-hidden">
       {/* Stars: diagonal (intro/main), vertical (transition) */}
       <Starfield 
-        mode={
-          phase === "transition" ? "vertical" : "normal"
-        }
+        mode={phase === "transition" ? "vertical" : "normal"}
       />
 
       {/* Intro / Welcome screen */}
@@ -23,16 +21,18 @@ export default function Home() {
             key="welcome"
             initial={{ y: 0 }}
             exit={{ y: "-100%" }} // slides up
-            transition={{ duration: 1, ease: "easeInOut" }}
+            transition={{ 
+              duration: 0.7, 
+              ease: "linear" // steady speed
+            }}
             className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-10"
           >
             <Welcome
               text="Welcome to My Portfolio Website. 😊"
               speed={50}
               onDone={() => {
-                // trigger transition (stars go up + homepage enters simultaneously)
                 setPhase("transition");
-                setTimeout(() => setPhase("main"), 1000); // return to normal stars after 1s
+                setTimeout(() => setPhase("main"), 700); 
               }}
             />
           </motion.div>
@@ -47,7 +47,10 @@ export default function Home() {
             initial={{ y: "100%" }} // start below
             animate={{ y: "0%" }}   // slide in
             exit={{ y: 0 }}
-            transition={{ duration: 1, ease: "easeInOut" }}
+            transition={{ 
+              duration: 0.9, // slightly longer
+              ease: [0.25, 1, 0.5, 1] // cubic-bezier easeOutQuint style
+            }}
             className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-10"
           >
             <Homepage />
