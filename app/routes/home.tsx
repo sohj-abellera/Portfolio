@@ -51,7 +51,7 @@ export default function Home() {
               duration: 0.9, // slightly longer
               ease: [0.25, 1, 0.5, 1] // cubic-bezier easeOutQuint style
             }}
-            className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-10"
+            className="absolute w-full h-full flex z-10 px-26"
           >
             <Homepage />
           </motion.div>
