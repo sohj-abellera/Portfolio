@@ -1,4 +1,5 @@
 import type { Route } from "./+types/home";
+import { ParallaxProvider, Parallax } from 'react-scroll-parallax';
 
 export function meta({}: Route.MetaArgs) {
   return [
