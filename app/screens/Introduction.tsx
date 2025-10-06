@@ -1,4 +1,4 @@
-// Homepage.tsx
+//app/screens/Introduction.tsx
 import { Moon, Github, Linkedin, Mail, FileDown } from "lucide-react";
 import { motion, type Variants } from "framer-motion";
 
@@ -17,7 +17,7 @@ type BlockTiming = {
   ease?: number[] | string;
 };
 
-export default function Homepage({ timings = [] as BlockTiming[] }) {
+export default function Introduction({ timings = [] as BlockTiming[] }) {
   return (
     <motion.div
       className="flex flex-col w-full h-full text-white"
