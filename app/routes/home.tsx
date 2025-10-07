@@ -1,12 +1,12 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
-import Starfield from "../components/Starfield/Starfield";
-import Welcome from "../screens/Welcome";
-import Introduction from "../screens/Introduction";
-import CareerTimeline from "../screens/CareerTimeline";
+import { motion, AnimatePresence } from "framer-motion"
+import { useState } from "react"
+import Starfield from "../components/Starfield/Starfield"
+import Welcome from "../screens/Welcome"
+import Introduction from "../screens/Introduction"
+import CareerTimeline from "../screens/CareerTimeline"
 
 export default function Home() {
-  const [phase, setPhase] = useState<"intro" | "transition" | "main">("intro");
+  const [phase, setPhase] = useState<"intro" | "transition" | "main">("intro")
 
   return (
     <div
@@ -14,19 +14,18 @@ export default function Home() {
         phase === "intro" ? "overflow-hidden" : "overflow-visible"
       }`}
     >
-
-      {/* Stars: diagonal (intro/main), vertical (transition) */}
+      {/* Stars */}
       <Starfield mode={phase === "transition" ? "vertical" : "normal"} />
 
-      {/* Intro / Welcome screen */}
+      {/* Welcome screen */}
       <AnimatePresence>
         {phase === "intro" && (
           <motion.div
             key="welcome"
             initial={{ y: 0 }}
-            exit={{ y: "-100%" }} // slides up
+            exit={{ y: "-100%" }}
             transition={{
-              duration: .8,
+              duration: 0.8,
               ease: [0.21, 0.58, 0.54, 0.98],
             }}
             className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-10"
@@ -35,75 +34,67 @@ export default function Home() {
               text="Welcome to My Portfolio Website.😊"
               speed={40}
               onDone={() => {
-                setPhase("transition");
-                setTimeout(() => setPhase("main"), 800);
+                setPhase("transition")
+                setTimeout(() => setPhase("main"), 800)
               }}
             />
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Introduction — mounted after intro */}
+      {/* Main content */}
       {(phase === "transition" || phase === "main") && (
         <main className="relative w-full flex flex-col z-10 items-center">
           <section id="intro" className="min-h-screen w-full max-w-6xl mx-auto">
             <Introduction
               timings={[
-                { duration: .8, delay: 0.0, ease: [0.21, 0.58, 0.54, 0.98] }, // Navbar
-                { duration: .8, delay: 0.0, ease: [0.21, 0.58, 0.78, 0.95] }, // Profile
-                { duration: .8, delay: 0.03, ease: [0.21, 0.58, 0.78, 0.95] }, // Hi!
-                { duration: .8, delay: 0.07, ease: [0.21, 0.58, 0.78, 0.95] }, // Heading
-                { duration: .8, delay: 0.11, ease: [0.21, 0.58, 0.78, 0.95] }, // Role
-                { duration: .8, delay: 0.15, ease: [0.21, 0.58, 0.78, 0.95] }, // Icons
+                { duration: 0.8, delay: 0.0, ease: [0.21, 0.58, 0.54, 0.98] },
+                { duration: 0.8, delay: 0.0, ease: [0.21, 0.58, 0.78, 0.95] },
+                { duration: 0.8, delay: 0.03, ease: [0.21, 0.58, 0.78, 0.95] },
+                { duration: 0.8, delay: 0.07, ease: [0.21, 0.58, 0.78, 0.95] },
+                { duration: 0.8, delay: 0.11, ease: [0.21, 0.58, 0.78, 0.95] },
+                { duration: 0.8, delay: 0.15, ease: [0.21, 0.58, 0.78, 0.95] },
               ]}
             />
           </section>
+
           {/* Timeline section */}
           <section id="timeline" className="w-full mt-10">
             <CareerTimeline
               events={[
                 {
-                  year: "May 2022 – April 2023",
-                  title: "Capstone Project",
+                  year: "Nov 2021 – Feb 2022",
+                  title: "Freshmen Projects",
                   description:
-                    "Led a team to build a full-stack web app using React and Node.js. Focused on clean UI, authentication, and backend APIs.",
-                  image: "/career-timeline-stuff/4.2.PNG",
-                  github: "https://github.com/yourrepo",
-                  tech: ["React", "Node.js", "MongoDB", "TailwindCSS"],
-                },
-                {
-                  year: "May 2022 – April 2023",
-                  title: "Capstone Project",
-                  description:
-                    "Led a team to build a full-stack web app using React and Node.js. Focused on clean UI, authentication, and backend APIs.",
-                  image: "/career-timeline-stuff/4.2.PNG",
-                  github: "https://github.com/yourrepo",
-                  tech: ["React", "Node.js", "MongoDB", "TailwindCSS"],
-                },
-                {
-                  year: "May 2022 – April 2023",
-                  title: "Capstone Project",
-                  description:
-                    "Led a team to build a full-stack web app using React and Node.js. Focused on clean UI, authentication, and backend APIs.",
-                  image: "/career-timeline-stuff/4.2.PNG",
-                  github: "https://github.com/yourrepo",
-                  tech: ["React", "Node.js", "MongoDB", "TailwindCSS"],
-                },
-                {
-                  year: "May 2022 – April 2023",
-                  title: "Capstone Project",
-                  description:
-                    "Led a team to build a full-stack web app using React and Node.js. Focused on clean UI, authentication, and backend APIs.",
-                  image: "/career-timeline-stuff/4.2.PNG",
-                  github: "https://github.com/yourrepo",
-                  tech: ["React", "Node.js", "MongoDB", "TailwindCSS"],
+                    "Forced to be the developer on our first project since nobody wanted to try. I had no experience yet, but I enjoyed experimenting and figuring things out along the way. Most of what I made came from watching YouTube tutorials and combining bits of code I liked into my own designs. From then on, I ended up being the developer for all our projects that year. >_<",
+                  tech: ["HTML", "CSS"],
                 },
               ]}
-            />
-
+              containerConfig={{
+                  bgImage: "/career-timeline-stuff/bg-tech.jpg",
+                  bgColor: "#0f242d",
+                  slides: [
+                    {
+                      title: "I guess technically this is my first ever website :(",
+                      video: "/career-timeline-stuff/first-projects/personal-info.mp4",
+                      overlayImage: "/career-timeline-stuff/first-projects/personal-info.png",
+                    },
+                    {
+                      title: "Basically, it's a Christmas inspired forms, with animations this time.",
+                      video: "/career-timeline-stuff/first-projects/christmas-forms.mp4",
+                      overlayImage: "/career-timeline-stuff/first-projects/christmas-forms.PNG",
+                    },
+                    {
+                      title: "I really liked the animations here. Not my code tho >_<",
+                      video: "/career-timeline-stuff/first-projects/interests-frameset.mp4",
+                      overlayImage: "/career-timeline-stuff/first-projects/interests-frameset.png",
+                    },
+                  ],
+                }}
+              />
           </section>
         </main>
       )}
     </div>
-  );
+  )
 }
