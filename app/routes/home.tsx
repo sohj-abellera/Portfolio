@@ -8,39 +8,13 @@ import CareerTimeline from "../screens/CareerTimeline";
 export default function Home() {
   const [phase, setPhase] = useState<"intro" | "transition" | "main">("intro");
 
-  const timelineEvents = [
-  {
-    year: "2019",
-    title: "Discovered Coding",
-    description:
-      "Started exploring HTML, CSS, and basic JavaScript. Built small static pages just for fun.",
-    image: "/images/timeline/2019.jpg",
-  },
-  {
-    year: "2021",
-    title: "University Projects",
-    description:
-      "Developed academic projects — calculators, login systems, and my first responsive layouts.",
-    image: "/images/timeline/2021.jpg",
-  },
-  {
-    year: "2023",
-    title: "Capstone Project",
-    description:
-      "Led a team to create a full-stack web application using React and Node.js.",
-    image: "/images/timeline/2023.jpg",
-  },
-  {
-    year: "2024",
-    title: "Personal Portfolio",
-    description:
-      "Designed and built this portfolio site — a reflection of my style, growth, and focus on clean UI/UX.",
-    image: "/images/timeline/2024.jpg",
-  },
-];
-
   return (
-    <div className="w-screen min-h-screen text-white flex items-center justify-center relative overflow-hidden">
+    <div
+      className={`w-screen min-h-screen text-white flex items-center relative ${
+        phase === "intro" ? "overflow-hidden" : "overflow-visible"
+      }`}
+    >
+
       {/* Stars: diagonal (intro/main), vertical (transition) */}
       <Starfield mode={phase === "transition" ? "vertical" : "normal"} />
 
@@ -71,8 +45,8 @@ export default function Home() {
 
       {/* Introduction — mounted after intro */}
       {(phase === "transition" || phase === "main") && (
-        <main className="relative w-full flex flex-col z-10">
-          <section id="intro" className="min-h-screen w-full px-26">
+        <main className="relative w-full flex flex-col z-10 items-center">
+          <section id="intro" className="min-h-screen w-full max-w-6xl mx-auto">
             <Introduction
               timings={[
                 { duration: .8, delay: 0.0, ease: [0.21, 0.58, 0.54, 0.98] }, // Navbar
@@ -85,8 +59,48 @@ export default function Home() {
             />
           </section>
           {/* Timeline section */}
-          <section id="timeline" className="min-h-screen w-full">
-            <CareerTimeline events={timelineEvents} />
+          <section id="timeline" className="w-full mt-10">
+            <CareerTimeline
+              events={[
+                {
+                  year: "May 2022 – April 2023",
+                  title: "Capstone Project",
+                  description:
+                    "Led a team to build a full-stack web app using React and Node.js. Focused on clean UI, authentication, and backend APIs.",
+                  image: "/career-timeline-stuff/4.2.PNG",
+                  github: "https://github.com/yourrepo",
+                  tech: ["React", "Node.js", "MongoDB", "TailwindCSS"],
+                },
+                {
+                  year: "May 2022 – April 2023",
+                  title: "Capstone Project",
+                  description:
+                    "Led a team to build a full-stack web app using React and Node.js. Focused on clean UI, authentication, and backend APIs.",
+                  image: "/career-timeline-stuff/4.2.PNG",
+                  github: "https://github.com/yourrepo",
+                  tech: ["React", "Node.js", "MongoDB", "TailwindCSS"],
+                },
+                {
+                  year: "May 2022 – April 2023",
+                  title: "Capstone Project",
+                  description:
+                    "Led a team to build a full-stack web app using React and Node.js. Focused on clean UI, authentication, and backend APIs.",
+                  image: "/career-timeline-stuff/4.2.PNG",
+                  github: "https://github.com/yourrepo",
+                  tech: ["React", "Node.js", "MongoDB", "TailwindCSS"],
+                },
+                {
+                  year: "May 2022 – April 2023",
+                  title: "Capstone Project",
+                  description:
+                    "Led a team to build a full-stack web app using React and Node.js. Focused on clean UI, authentication, and backend APIs.",
+                  image: "/career-timeline-stuff/4.2.PNG",
+                  github: "https://github.com/yourrepo",
+                  tech: ["React", "Node.js", "MongoDB", "TailwindCSS"],
+                },
+              ]}
+            />
+
           </section>
         </main>
       )}

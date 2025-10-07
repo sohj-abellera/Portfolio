@@ -1,91 +1,92 @@
-// CareerTimeline.tsx
 type Event = {
-  title: string;
-  description: string;
-  image: string;
-  year?: string;
-};
+  year?: string
+  title: string
+  description: string
+  image: string
+  github?: string
+  tech?: string[]
+}
 
 export default function CareerTimeline({ events }: { events: Event[] }) {
   return (
-    <div className="relative w-full min-h-screen bg-black/80 border-t border-b border-white/10 flex flex-col items-center pt-20 px-55 text-center">
-      <h1 className="text-3xl font-bold text-white mb-4">Career Timeline</h1>
-      <p className="text-gray-300 text-[16px] leading-relaxed max-w-4xl">
-        A look at my journey so far — from my early days learning to code, 
-        to the academic and personal projects that helped me grow as a developer.  
-        Each step here reflects what I’ve learned, built, and where I’m heading next.
-      </p>
+    <div className="w-full bg-black/80 border-t border-b border-white/10 py-20 text-white">
+      {/* Header */}
+      <div className="w-full flex flex-col items-center text-center">
+        <h1 className="text-3xl font-bold mb-4">Career Timeline</h1>
+        <p className="text-gray-300 text-[16px] leading-relaxed max-w-6xl mb-16">
+          A look at my journey so far — from being unexpectedly assigned as the leader
+          for a website project, to discovering my genuine interest in web development.
+          What started as a simple task quickly turned into a passion. Each project
+          since then has helped me grow as a developer, sharpening both my technical
+          skills and my love for building interactive experiences.
+        </p>
+      </div>
 
       {/* Timeline container */}
-      <div className="relative w-full pt-5">
-        {/* Center line */}
-        <div className="absolute left-1/2 transform -translate-x-1/2 w-[2px] h-full bg-gradient-to-b from-transparent via-white/30 to-white/20" />
+      <div className="relative max-w-6xl mx-auto px-8">
+        {/* Left vertical line */}
+        <div className="absolute left-8 top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-white/40 to-transparent" />
 
-        {/* Timeline items */}
-        <div className="flex flex-col space-y-24 px-12">
-          {events.map((event, i) => {
-            const isLeft = i % 2 === 0;
-            return (
-              <div key={i} className="top-35 relative flex items-start justify-between w-full">
-                {/* Dot */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-3 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.6)] border border-white/30" />
+        {/* Timeline events */}
+        <div className="flex flex-col space-y-20">
+          {events.map((event, i) => (
+            <div key={i} className="relative flex items-start pl-16">
+              {/* Timeline dot */}
+              <div className="absolute left-[7px] top-2 w-2 h-2 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.6)]" />
 
-                {isLeft ? (
-                  <>
-                    {/* Left text */}
-                    <div className="flex-1 flex justify-end pr-10">
-                      <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 max-w-sm text-left shadow-lg hover:scale-[1.03] transition-transform duration-300">
-                        <h3 className="text-xl font-semibold text-white mb-2">
-                          {event.year ? `${event.year} — ${event.title}` : event.title}
-                        </h3>
-                        <p className="text-gray-400 text-sm leading-relaxed">
-                          {event.description}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Right image */}
-                    <div className="flex-1 flex justify-start pl-10">
-                      <div className="relative w-full rounded-xl overflow-hidden border border-dashed border-white/20 shadow-md hover:border-white/40 hover:scale-[1.03] transition-all duration-300">
-                        <img
-                          src={event.image}
-                          alt={event.title}
-                          className="w-full h-auto object-cover opacity-90 hover:opacity-100 transition"
-                        />
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    {/* Left image */}
-                    <div className="flex-1 flex justify-end pr-10">
-                      <div className="relative w-full rounded-xl overflow-hidden border border-dashed border-white/20 shadow-md hover:border-white/40 hover:scale-[1.03] transition-all duration-300">
-                        <img
-                          src={event.image}
-                          alt={event.title}
-                          className="w-full h-auto object-cover opacity-90 hover:opacity-100 transition"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Right text */}
-                    <div className="flex-1 flex justify-start pl-10">
-                      <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 max-w-sm text-left shadow-lg hover:scale-[1.03] transition-transform duration-300">
-                        <h3 className="text-xl font-semibold text-white mb-2">
-                          {event.year ? `${event.year} — ${event.title}` : event.title}
-                        </h3>
-                        <p className="text-gray-400 text-sm leading-relaxed">
-                          {event.description}
-                        </p>
-                      </div>
-                    </div>
-                  </>
+              {/* Content card */}
+              <div className="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm shadow-md w-full hover:bg-white/10 transition-all duration-300">
+                {/* Date */}
+                {event.year && (
+                  <p className="text-sm text-gray-400 mb-1">{event.year}</p>
                 )}
+
+                {/* Title */}
+                <h3 className="text-xl font-semibold text-white mb-4">
+                  {event.title}
+                </h3>
+
+                {/* Image */}
+                <img
+                  src={event.image}
+                  alt={event.title}
+                  className="w-full h-64 object-cover rounded-md border border-white/10 mb-4"
+                />
+
+                {/* Description */}
+                <p className="text-gray-300 text-[15px] leading-relaxed mb-4">
+                  {event.description}
+                </p>
+
+                {/* Tags + GitHub */}
+                <div className="flex flex-wrap items-center gap-3 text-sm">
+                  {/* GitHub Link */}
+                  {event.github && (
+                    <a
+                      href={event.github}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
+                    >
+                      • View on GitHub
+                    </a>
+                  )}
+
+                  {/* Tech stack tags */}
+                  {event.tech?.map((t, j) => (
+                    <span
+                      key={j}
+                      className="px-3 py-1 bg-white/10 rounded-full text-gray-300 border border-white/10"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       </div>
     </div>
-  );
+  )
 }

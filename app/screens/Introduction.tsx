@@ -1,4 +1,4 @@
-//app/screens/Introduction.tsx
+//app/screens/Introduction
 import { Moon, Github, Linkedin, Mail, FileDown } from "lucide-react";
 import { motion, type Variants } from "framer-motion";
 
