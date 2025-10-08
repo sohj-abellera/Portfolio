@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { motion } from "framer-motion"
+import { useState, useRef, useEffect } from "react"
+import { motion, useMotionValue, animate } from "framer-motion"
 
 type Event = {
   year?: string
@@ -30,11 +30,73 @@ export default function CareerTimeline({
 }) {
   const { bgImage, bgColor, slides = [] } = containerConfig
   const [active, setActive] = useState(0)
+  const x = useMotionValue(0)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [isPaused, setIsPaused] = useState(false)
 
-  const changeSlide = (newIndex: number) => {
-    if (newIndex === active) return
-    setActive(newIndex)
+  const slideWidth = 480
+  const totalSlides = slides.length
+  const totalWidth = slideWidth * totalSlides
+
+  const resumeTimer = useRef<NodeJS.Timeout | null>(null)
+
+  // --- helper ---
+  const changeSlide = (index: number, userAction = false) => {
+    if (index < 0) index = totalSlides - 1
+    if (index >= totalSlides) index = 0
+    setActive(index)
+    animate(x, -index * slideWidth, {
+      type: "spring",
+      stiffness: 250,
+      damping: 30,
+    })
+
+
+    if (userAction) {
+      setIsPaused(true)
+      clearTimeout(resumeTimer.current!)
+      resumeTimer.current = setTimeout(() => setIsPaused(false), 6000)
+    }
   }
+
+  // --- handle drag ---
+  const handleDragEnd = (_: any, info: any) => {
+    const currentX = x.get()
+    const velocity = info.velocity.x
+    const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0
+    const direction = velocity > 0 ? -1 : 1
+    let index = Math.round(-currentX / slideWidth)
+
+    const velocityThreshold = isTouch ? 350 : 500
+    const distanceThreshold = slideWidth * (isTouch ? 0.2 : 0.3)
+    const draggedDistance = -currentX - active * slideWidth
+
+    if (Math.abs(velocity) > velocityThreshold) {
+      index += direction
+    } else if (Math.abs(draggedDistance) > distanceThreshold) {
+      index += Math.sign(draggedDistance)
+    }
+
+    changeSlide(index, true)
+  }
+
+  // --- autoplay with pause/resume ---
+  useEffect(() => {
+    if (slides.length <= 1 || isPaused) return
+    const interval = setInterval(() => {
+      setActive((prev) => {
+        const next = (prev + 1) % totalSlides
+        animate(x, -next * slideWidth, {
+          type: "spring",
+          stiffness: 250,
+          damping: 30,
+        })
+        return next
+      })
+    }, 6000)
+
+    return () => clearInterval(interval)
+  }, [slides.length, isPaused])
 
   return (
     <div className="w-full bg-black/80 border-t border-b border-white/10 py-20 text-white">
@@ -93,78 +155,81 @@ export default function CareerTimeline({
           ))}
         </div>
 
-        {/* Right side — push-style slider */}
+        {/* Right side — draggable slider */}
         <div
-          className="w-[480px] sticky top-24 h-[470px] rounded-xl shadow-lg overflow-hidden select-none"
+          ref={containerRef}
+          className="w-[480px] sticky top-24 h-[470px] rounded-xl shadow-lg overflow-hidden select-none relative"
           style={{
             backgroundColor: bgColor || "rgba(255,255,255,0.05)",
             backgroundImage: bgImage ? `url(${bgImage})` : undefined,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
         >
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 pointer-events-none z-30" />
 
-          {/* Slides */}
-          <div className="relative w-full h-full overflow-hidden z-40">
-            {slides.map((slide, i) => {
-              const offset = (i - active) * 100 // offset in percentage
-              const isActive = i === active
+          {/* Slides Wrapper */}
+          <motion.div
+            className="flex absolute top-0 left-0 h-full cursor-grab active:cursor-grabbing z-40"
+            drag="x"
+            dragConstraints={{ left: -(totalWidth - slideWidth), right: 0 }}
+            style={{ x }}
+            onDragEnd={handleDragEnd}
+            onDragStart={() => setIsPaused(true)}
+          >
+            {slides.map((slide, i) => (
+              <div key={i} className="w-[480px] h-full relative flex-shrink-0">
+                {slide.title && (
+                  <div className="absolute top-7 left-9 right-6 z-10">
+                    <h3 className="text-2xl font-extrabold text-white drop-shadow-md">
+                      {slide.title}
+                    </h3>
+                  </div>
+                )}
 
-              return (
-                <motion.div
-                  key={i}
-                  className="absolute inset-0"
-                  animate={{ x: `${offset}%` }}
-                  transition={{
-                    duration: 0.45,
-                    ease: [0.25, 0.1, 0.25, 1],
-                  }}
-                  style={{ zIndex: isActive ? 2 : 1 }}
-                >
-                  {slide.title && (
-                    <div className="absolute top-7 left-9 right-6 z-10">
-                      <h3 className="text-2xl font-extrabold text-white drop-shadow-md">
-                        {slide.title}
-                      </h3>
-                    </div>
-                  )}
+                {slide.video && (
+                  <motion.video
+                    src={slide.video}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="absolute top-[108px] left-7 w-[400px] object-cover rounded-[8px] z-20"
+                    whileHover={{
+                      scale: 1.03,
+                      boxShadow:
+                        "0px 8px 18px rgba(0, 0, 0, 0.45), 0px 4px 10px rgba(0, 0, 0, 0.25)",
+                      zIndex: 40,
+                    }}
+                    transition={{ type: "spring", stiffness: 220, damping: 18 }}
+                  />
+                )}
 
-                  {slide.video && (
-                    <video
-                      src={slide.video}
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className="absolute top-[108px] left-7 w-[400px] object-cover rounded-[8px]"
-                    />
-                  )}
-
-                  {slide.overlayImage && (
-                    <img
-                      src={slide.overlayImage}
-                      alt="overlay"
-                      className="absolute bottom-12 right-7 w-[290px] rounded-[4px] z-20 pointer-events-none"
-                      style={{
-                        boxShadow:
-                          "0px 8px 16px rgba(0, 0, 0, 0.45), 0px -2px 6px rgba(0, 0, 0, 0.15)",
-                      }}
-                    />
-                  )}
-                </motion.div>
-              )
-            })}
-          </div>
+                {slide.overlayImage && (
+                  <motion.img
+                    src={slide.overlayImage}
+                    alt="overlay"
+                    className="absolute bottom-12 right-7 w-[290px] rounded-[4px] pointer-events-none z-30"
+                    style={{
+                      boxShadow:
+                        "0px 8px 16px rgba(0, 0, 0, 0.45), 0px -2px 6px rgba(0, 0, 0, 0.15)",
+                    }}
+                  />
+                )}
+              </div>
+            ))}
+          </motion.div>
 
           {/* Indicators */}
           {slides.length > 1 && (
-            <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-3 z-40">
+            <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-3 z-50 cursor-default">
               {slides.map((_, i) => (
                 <button
                   key={i}
-                  onClick={() => changeSlide(i)}
+                  onClick={() => changeSlide(i, true)}
                   className={`h-[10px] rounded-full transition-all duration-300 cursor-pointer ${
                     i === active
                       ? "w-[25px] bg-white/90"
