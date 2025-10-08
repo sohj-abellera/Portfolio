@@ -126,7 +126,7 @@ export default function CareerTimeline({
             <div key={i}>
               <p className="text-sm text-gray-400 mb-1">{event.year}</p>
               <h3 className="text-2xl font-bold mb-3">{event.title}</h3>
-              <p className="text-gray-300 leading-relaxed mb-5">
+              <p className="text-gray-300 leading-relaxed mb-5 whitespace-pre-line">
                 {event.description}
               </p>
 

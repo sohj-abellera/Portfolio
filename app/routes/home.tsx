@@ -65,27 +65,28 @@ export default function Home() {
                 {
                   year: "Nov 2021 – Feb 2022",
                   title: "Freshmen Projects",
-                  description:
-                    "Forced to be the developer on our first project since nobody wanted to try. I had no experience yet, but I enjoyed experimenting and figuring things out along the way. Most of what I made came from watching YouTube tutorials and combining bits of code I liked into my own designs. From then on, I ended up being the developer for all our projects that year. >_<",
-                  tech: ["HTML", "CSS"],
-                },
+                  description: `Forced to become the “developer” of our first group project because no one else wanted to do it. I had zero idea what I was doing — just me, YouTube tutorials, and a lot of trial and error. Somehow, things worked, and I actually found myself enjoying the process.
+
+                                These early projects taught me how to explore, adapt, and experiment. I learned how to search for answers, combine snippets of code into something that felt mine, and discovered how satisfying it is to bring an idea to life, even if it looked terrible back then.`,
+                }
+
               ]}
               containerConfig={{
                   bgImage: "/career-timeline-stuff/bg-tech.jpg",
                   bgColor: "#0f242d",
                   slides: [
                     {
-                      title: "I guess technically this is my first ever website :(",
+                      title: "My very first website — awkward but kinda special.",
                       video: "/career-timeline-stuff/first-projects/personal-info.mp4",
                       overlayImage: "/career-timeline-stuff/first-projects/personal-info.png",
                     },
                     {
-                      title: "Basically, it's a Christmas inspired forms, with animations this time.",
+                      title: "Christmas-themed forms with some Christmans related animations ",
                       video: "/career-timeline-stuff/first-projects/christmas-forms.mp4",
                       overlayImage: "/career-timeline-stuff/first-projects/christmas-forms.PNG",
                     },
                     {
-                      title: "I really liked the animations here. Not my code tho >_<",
+                      title: "The one where I discovered anything can be animated in css",
                       video: "/career-timeline-stuff/first-projects/interests-frameset.mp4",
                       overlayImage: "/career-timeline-stuff/first-projects/interests-frameset.png",
                     },
