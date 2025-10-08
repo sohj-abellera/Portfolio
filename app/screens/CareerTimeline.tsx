@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { motion, AnimatePresence, type Variants, type Transition } from "framer-motion"
+import { motion } from "framer-motion"
 
 type Event = {
   year?: string
@@ -30,37 +30,10 @@ export default function CareerTimeline({
 }) {
   const { bgImage, bgColor, slides = [] } = containerConfig
   const [active, setActive] = useState(0)
-  const [direction, setDirection] = useState(0)
 
   const changeSlide = (newIndex: number) => {
     if (newIndex === active) return
-    const dir = newIndex > active ? 1 : -1
-    setDirection(dir)
     setActive(newIndex)
-  }
-
-  // Fixed ease types to valid cubic-bezier array values
-  const variants: Variants = {
-    enter: (dir: number) => ({
-      x: dir > 0 ? 500 : -500,
-      opacity: 0,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.35,
-        ease: [0.25, 0.1, 0.25, 1] as Transition["ease"], // easeOut
-      },
-    },
-    exit: (dir: number) => ({
-      x: dir > 0 ? -500 : 500,
-      opacity: 0,
-      transition: {
-        duration: 0.35,
-        ease: [0.42, 0, 1, 1] as Transition["ease"], // easeIn
-      },
-    }),
   }
 
   return (
@@ -120,7 +93,7 @@ export default function CareerTimeline({
           ))}
         </div>
 
-        {/* Right side — manual sliding container */}
+        {/* Right side — push-style slider */}
         <div
           className="w-[480px] sticky top-24 h-[470px] rounded-xl shadow-lg overflow-hidden select-none"
           style={{
@@ -131,71 +104,71 @@ export default function CareerTimeline({
           }}
         >
           {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 pointer-events-none z-30" />
 
           {/* Slides */}
-          <AnimatePresence custom={direction} mode="popLayout">
-            {slides.map(
-              (slide, i) =>
-                i === active && (
-                  <motion.div
-                    key={i}
-                    className="absolute inset-0"
-                    custom={direction}
-                    variants={variants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    transition={{
-                      x: { type: "spring", stiffness: 60, damping: 20 },
-                    }}
-                  >
-                    {slide.title && (
-                      <div className="absolute top-7 left-9 right-6 z-10">
-                        <h3 className="text-2xl font-extrabold text-white drop-shadow-md">
-                          {slide.title}
-                        </h3>
-                      </div>
-                    )}
+          <div className="relative w-full h-full overflow-hidden z-40">
+            {slides.map((slide, i) => {
+              const offset = (i - active) * 100 // offset in percentage
+              const isActive = i === active
 
-                    {slide.video && (
-                      <video
-                        src={slide.video}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="absolute top-[108px] left-7 w-[400px] object-cover rounded-[8px]"
-                      />
-                    )}
+              return (
+                <motion.div
+                  key={i}
+                  className="absolute inset-0"
+                  animate={{ x: `${offset}%` }}
+                  transition={{
+                    duration: 0.45,
+                    ease: [0.25, 0.1, 0.25, 1],
+                  }}
+                  style={{ zIndex: isActive ? 2 : 1 }}
+                >
+                  {slide.title && (
+                    <div className="absolute top-7 left-9 right-6 z-10">
+                      <h3 className="text-2xl font-extrabold text-white drop-shadow-md">
+                        {slide.title}
+                      </h3>
+                    </div>
+                  )}
 
-                    {slide.overlayImage && (
-                      <img
-                        src={slide.overlayImage}
-                        alt="overlay"
-                        className="absolute bottom-12 right-7 w-[290px] rounded-[4px] z-20 pointer-events-none"
-                        style={{
-                          boxShadow:
-                            "0px 8px 16px rgba(0, 0, 0, 0.45), 0px -2px 6px rgba(0, 0, 0, 0.15)",
-                        }}
-                      />
-                    )}
-                  </motion.div>
-                )
-            )}
-          </AnimatePresence>
+                  {slide.video && (
+                    <video
+                      src={slide.video}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="absolute top-[108px] left-7 w-[400px] object-cover rounded-[8px]"
+                    />
+                  )}
+
+                  {slide.overlayImage && (
+                    <img
+                      src={slide.overlayImage}
+                      alt="overlay"
+                      className="absolute bottom-12 right-7 w-[290px] rounded-[4px] z-20 pointer-events-none"
+                      style={{
+                        boxShadow:
+                          "0px 8px 16px rgba(0, 0, 0, 0.45), 0px -2px 6px rgba(0, 0, 0, 0.15)",
+                      }}
+                    />
+                  )}
+                </motion.div>
+              )
+            })}
+          </div>
 
           {/* Indicators */}
           {slides.length > 1 && (
-            <div className="absolute bottom-5 left-0 right-0 flex justify-center gap-2 z-30">
+            <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-3 z-40">
               {slides.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => changeSlide(i)}
-                  className={`h-[6px] rounded-full transition-all duration-300 ${
+                  className={`h-[10px] rounded-full transition-all duration-300 cursor-pointer ${
                     i === active
-                      ? "w-[24px] bg-white/90"
-                      : "w-[8px] bg-white/40 hover:bg-white/60"
+                      ? "w-[25px] bg-white/90"
+                      : "w-[10px] bg-white/40 hover:bg-white/60"
                   }`}
                 />
               ))}
