@@ -1,18 +1,25 @@
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, type JSX } from "react"
 import { motion, useMotionValue, animate } from "framer-motion"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import {
+  faHtml5,
+  faCss3Alt,
+  faJs,
+  faReact,
+  faGithub,
+  faBootstrap,
+  faNodeJs,
+  faPhp,
+  faJava,
+  faAndroid,
+} from "@fortawesome/free-brands-svg-icons"
 
-type Event = {
-  year?: string
-  title: string
-  description: string
-  github?: string
-  tech?: string[]
-}
 
 type Slide = {
   title?: string
   video?: string
   overlayImage?: string
+  customId?: string
 }
 
 type ContainerConfig = {
@@ -21,30 +28,44 @@ type ContainerConfig = {
   slides?: Slide[]
 }
 
-export default function CareerTimeline({
-  events,
-  containerConfig = {},
-}: {
-  events: Event[]
-  containerConfig?: ContainerConfig
-}) {
-  const { bgImage, bgColor, slides = [] } = containerConfig
-  const [active, setActive] = useState(0)
-  const x = useMotionValue(0)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [isPaused, setIsPaused] = useState(false)
+type Section = {
+  year?: string
+  title: string
+  description: string
+  github?: string
+  tech?: string[]
+  containerConfig: ContainerConfig
+}
 
+const techIconMap: Record<string, JSX.Element> = {
+  HTML: <FontAwesomeIcon icon={faHtml5} className="text-orange-500" />,
+  CSS: <FontAwesomeIcon icon={faCss3Alt} className="text-blue-500" />,
+  JavaScript: <FontAwesomeIcon icon={faJs} className="text-yellow-400" />,
+  React: <FontAwesomeIcon icon={faReact} className="text-cyan-400" />,
+  GitHub: <FontAwesomeIcon icon={faGithub} className="text-gray-300" />,
+  Bootstrap: <FontAwesomeIcon icon={faBootstrap} className="text-purple-400" />,
+  Node: <FontAwesomeIcon icon={faNodeJs} className="text-green-400" />,
+}
+
+export default function CareerTimeline({ sections }: { sections: Section[] }) {
+  const [activeSection, setActiveSection] = useState(0)
+  const { bgImage, bgColor, slides = [] } = sections[activeSection].containerConfig
+
+  const x = useMotionValue(0)
+  const [activeSlide, setActiveSlide] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
   const slideWidth = 480
   const totalSlides = slides.length
   const totalWidth = slideWidth * totalSlides
-
   const resumeTimer = useRef<NodeJS.Timeout | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const sectionRefs = useRef<(HTMLDivElement | null)[]>([])
 
-  // --- helper ---
+  // --- slide change ---
   const changeSlide = (index: number, userAction = false) => {
     if (index < 0) index = totalSlides - 1
     if (index >= totalSlides) index = 0
-    setActive(index)
+    setActiveSlide(index)
     animate(x, -index * slideWidth, {
       type: "spring",
       stiffness: 250,
@@ -59,32 +80,28 @@ export default function CareerTimeline({
     }
   }
 
-  // --- handle drag ---
+  // --- drag handling ---
   const handleDragEnd = (_: any, info: any) => {
     const currentX = x.get()
     const velocity = info.velocity.x
     const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0
     const direction = velocity > 0 ? -1 : 1
     let index = Math.round(-currentX / slideWidth)
+    const distanceThreshold = slideWidth * 0.3
+    const draggedDistance = -currentX - activeSlide * slideWidth
 
-    const velocityThreshold = isTouch ? 350 : 500
-    const distanceThreshold = slideWidth * (isTouch ? 0.2 : 0.3)
-    const draggedDistance = -currentX - active * slideWidth
-
-    if (Math.abs(velocity) > velocityThreshold) {
-      index += direction
-    } else if (Math.abs(draggedDistance) > distanceThreshold) {
+    if (Math.abs(velocity) > 500) index += direction
+    else if (Math.abs(draggedDistance) > distanceThreshold)
       index += Math.sign(draggedDistance)
-    }
 
     changeSlide(index, true)
   }
 
-  // --- autoplay with pause/resume ---
+  // --- autoplay ---
   useEffect(() => {
     if (slides.length <= 1 || isPaused) return
     const interval = setInterval(() => {
-      setActive((prev) => {
+      setActiveSlide((prev) => {
         const next = (prev + 1) % totalSlides
         animate(x, -next * slideWidth, {
           type: "spring",
@@ -96,7 +113,32 @@ export default function CareerTimeline({
     }, 6000)
 
     return () => clearInterval(interval)
-  }, [slides.length, isPaused])
+  }, [slides.length, isPaused, activeSection])
+
+  // --- track scroll position ---
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    const handleScroll = () => {
+      const containerRect = container.getBoundingClientRect()
+      const midpoint = containerRect.top + containerRect.height / 2
+
+      sectionRefs.current.forEach((ref, index) => {
+        if (!ref) return
+        const rect = ref.getBoundingClientRect()
+        const top = rect.top
+        const bottom = rect.bottom
+
+        if (top <= midpoint && bottom >= midpoint) {
+          if (activeSection !== index) setActiveSection(index)
+        }
+      })
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [activeSection])
 
   return (
     <div className="w-full bg-black/80 border-t border-b border-white/10 py-20 text-white">
@@ -112,53 +154,67 @@ export default function CareerTimeline({
         </p>
       </div>
 
-      {/* Main layout */}
-      <div className="flex flex-col md:flex-row max-w-6xl mx-auto px-6 gap-10">
-        {/* Left side — details */}
-        <div className="flex-1 flex flex-col space-y-32">
-          <div className="mb-10">
+      {/* Layout */}
+      <div className="flex flex-col md:flex-row max-w-6xl mx-auto px-6 gap-20">
+        {/* Left side */}
+        <div className="flex-1 flex flex-col space-y-20 pb-60">
+          <div className="mb-15">
             <h2 className="text-6xl font-extrabold text-white mb-6">
               Let’s dive in.
             </h2>
           </div>
 
-          {events.map((event, i) => (
-            <div key={i}>
-              <p className="text-sm text-gray-400 mb-1">{event.year}</p>
-              <h3 className="text-2xl font-bold mb-3">{event.title}</h3>
+          {sections.map((section, i) => (
+            <div
+              key={i}
+              ref={(el) => {
+                sectionRefs.current[i] = el
+              }}
+
+              className="scroll-trigger"
+            >
+              <p className="text-sm text-gray-400 mb-1">{section.year}</p>
+              <h3 className="text-2xl font-bold mb-3">{section.title}</h3>
               <p className="text-gray-300 leading-relaxed mb-5 whitespace-pre-line">
-                {event.description}
+                {section.description}
               </p>
 
-              <div className="flex flex-wrap items-center gap-3 text-sm">
-                {event.github && (
+              {/* Tech + GitHub container */}
+              <div className="flex flex-wrap items-center gap-3 mb-4">
+                {section.github && (
                   <a
-                    href={event.github}
+                    href={section.github}
                     target="_blank"
-                    rel="noreferrer"
-                    className="text-blue-400 hover:text-blue-300 transition-colors"
+                    rel="noopener noreferrer"
+                    className="rounded-full bg-white/5 border border-white/10 text-gray-200 px-4 py-1.5 text-sm font-medium hover:bg-white/10 transition"
                   >
-                    • View on GitHub
+                    <FontAwesomeIcon
+                      icon={faGithub}
+                      className="mr-2 text-gray-300 group-hover:text-white"
+                    />
+                    Source Code
                   </a>
                 )}
 
-                {event.tech?.map((t, j) => (
-                  <span
+                {section.tech?.map((tech, j) => (
+                  <motion.div
                     key={j}
-                    className="px-3 py-1 bg-white/10 rounded-full text-gray-300 border border-white/10"
+                    whileHover={{ scale: 1.1 }}
+                    className="rounded-full bg-white/5 border border-white/10 text-gray-200 px-4 py-1.5 text-sm font-medium hover:bg-white/10 transition flex items-center gap-2"
                   >
-                    {t}
-                  </span>
+                    {techIconMap[tech] || null}
+                    <span>{tech}</span>
+                  </motion.div>
                 ))}
               </div>
             </div>
           ))}
         </div>
 
-        {/* Right side — draggable slider */}
+        {/* Right side — sticky media */}
         <div
           ref={containerRef}
-          className="w-[480px] sticky top-24 h-[470px] rounded-xl shadow-lg overflow-hidden select-none relative"
+          className="w-[480px] sticky top-24 h-[470px] rounded-xl shadow-lg overflow-hidden select-none"
           style={{
             backgroundColor: bgColor || "rgba(255,255,255,0.05)",
             backgroundImage: bgImage ? `url(${bgImage})` : undefined,
@@ -169,7 +225,7 @@ export default function CareerTimeline({
           onMouseLeave={() => setIsPaused(false)}
         >
           {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 pointer-events-none z-30" />
+          <div className="absolute inset-0 pointer-events-none z-30"/>
 
           {/* Slides Wrapper */}
           <motion.div
@@ -190,14 +246,27 @@ export default function CareerTimeline({
                   </div>
                 )}
 
+                {/* --- Video --- */}
+                {/* --- Video --- */}
                 {slide.video && (
                   <motion.video
                     src={slide.video}
+                    preload="auto"
                     autoPlay
                     loop
                     muted
                     playsInline
-                    className="absolute top-[108px] left-7 w-[400px] object-cover rounded-[8px] z-20"
+                    className={`absolute object-cover rounded-[8px] ${
+                      slide.customId === "for-class-funds"
+                        ? "top-[90px] right-8 w-[140px] z-30"
+                        : slide.customId === "for-capstone-thesis"
+                        ? "top-[120px] left-[50px] w-[360px] z-20 hidden" // 👈 your new clause
+                        : "top-[108px] left-7 w-[400px] z-20"
+                    }`}
+                    style={{
+                      boxShadow:
+                        "0px 8px 16px rgba(0, 0, 0, 0.45), 0px -2px 6px rgba(0, 0, 0, 0.15)",
+                    }}
                     whileHover={{
                       scale: 1.03,
                       boxShadow:
@@ -208,11 +277,19 @@ export default function CareerTimeline({
                   />
                 )}
 
+
+                {/* --- Overlay Image --- */}
                 {slide.overlayImage && (
                   <motion.img
                     src={slide.overlayImage}
                     alt="overlay"
-                    className="absolute bottom-12 right-7 w-[290px] rounded-[4px] pointer-events-none z-30"
+                    className={`absolute rounded-[4px] pointer-events-none ${
+                      slide.customId === "for-class-funds"
+                        ? "top-[110px] left-8 w-[370px] z-20"
+                        : slide.customId === "for-capstone-thesis"
+                        ? "bottom-24 left-1/2 -translate-x-1/2 w-[410px] z-30"
+                        : "bottom-12 right-7 w-[290px] z-30"
+                    }`}
                     style={{
                       boxShadow:
                         "0px 8px 16px rgba(0, 0, 0, 0.45), 0px -2px 6px rgba(0, 0, 0, 0.15)",
@@ -231,7 +308,7 @@ export default function CareerTimeline({
                   key={i}
                   onClick={() => changeSlide(i, true)}
                   className={`h-[10px] rounded-full transition-all duration-300 cursor-pointer ${
-                    i === active
+                    i === activeSlide
                       ? "w-[25px] bg-white/90"
                       : "w-[10px] bg-white/40 hover:bg-white/60"
                   }`}
