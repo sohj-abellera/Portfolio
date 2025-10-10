@@ -4,7 +4,7 @@ import Starfield from "../components/Starfield/Starfield"
 import Welcome from "../screens/Welcome"
 import Introduction from "../screens/Introduction"
 import CareerTimeline from "../screens/CareerTimeline"
-import Skills from "../screens/skills"
+import Skills from "../screens/Skills"
 
 export default function Home() {
   const [phase, setPhase] = useState<"intro" | "transition" | "main">("intro")
