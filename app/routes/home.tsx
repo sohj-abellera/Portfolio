@@ -285,7 +285,7 @@ export default function Home() {
             />
           </section>
 
-          {/* Timeline section */}
+          {/* Skills section */}
           <section id="skills" className="w-full mt-10">
             <Skills />
           </section>

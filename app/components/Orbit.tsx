@@ -5,9 +5,15 @@ import { useEffect, useState } from "react"
 
 type OrbitProps = {
   skills: string[]
+  centerWidth?: number
+  centerHeight?: number
 }
 
-export default function Orbit({ skills }: OrbitProps) {
+export default function Orbit({
+  skills,
+  centerWidth = 100,
+  centerHeight = 40,
+}: OrbitProps) {
   const [angleOffset, setAngleOffset] = useState(0)
 
   useEffect(() => {
@@ -20,10 +26,14 @@ export default function Orbit({ skills }: OrbitProps) {
   return (
     <div className="relative w-[480px] h-[480px] flex items-center justify-center">
       {skills.map((skill, i) => {
-        const radius = 200 + (i % 3) * 50
+        // base orbit radii scale with title width/height
+        const baseX = centerWidth * 0.8 + 150
+        const baseY = centerHeight * 1.2 + 200
+        const extra = (i % 3) * 20
+
         const angle = (i / skills.length) * Math.PI * 2 + angleOffset
-        const x = Math.cos(angle) * radius
-        const y = Math.sin(angle) * radius
+        const x = Math.cos(angle) * (baseX + extra)
+        const y = Math.sin(angle) * (baseY + extra)
 
         return (
           <motion.div
@@ -49,9 +59,6 @@ export default function Orbit({ skills }: OrbitProps) {
           </motion.div>
         )
       })}
-
-      {/* Core center (optional visual reference) */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[80px] h-[80px] rounded-full bg-white/10 border border-white/20 shadow-[0_0_30px_rgba(255,255,255,0.2)]" />
     </div>
   )
 }
