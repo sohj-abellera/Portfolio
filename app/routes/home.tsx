@@ -4,6 +4,7 @@ import Starfield from "../components/Starfield/Starfield"
 import Welcome from "../screens/Welcome"
 import Introduction from "../screens/Introduction"
 import CareerTimeline from "../screens/CareerTimeline"
+import Skills from "../screens/skills"
 
 export default function Home() {
   const [phase, setPhase] = useState<"intro" | "transition" | "main">("intro")
@@ -217,8 +218,76 @@ export default function Home() {
                     ],
                   },
                 },
+
+                {
+                  year: "March 2025 – May 2025",
+                  title: "Internship — Real Work, Real Pace",
+                  description: `My internship at Transfer IT gave me hands-on exposure to real-world IT operations — from assisting with PC setup and troubleshooting across multiple departments to supporting workflow automation initiatives.
+
+                  I explored how companies handle system management, user support, and internal communication, while also getting a glimpse of how technology impacts day-to-day efficiency.
+
+                  The experience strengthened my problem-solving skills and adaptability, shaping how I now approach software design with both users and maintainers in mind.
+                  `,
+                  tech: ["React", "JavaScript", "GitHub", "Figma"],
+                  containerConfig: {
+                    bgColor: "#111827",
+                    bgImage: "/career-timeline-stuff/bg-work.jpg",
+                    slides: [
+                      {
+                        title: "Internship Logo — DVD Bounce Edition",
+                        overlayImage: "/career-timeline-stuff/company-logo.png",
+                        customId: "internship-logo-bounce", // 👈 we’ll target this!
+                      },
+                    ],
+                  },
+                },
+
+                {
+                  year: "Sep 2025 – Present",
+                  title: "Learning by Rebuilding",
+                  description: `After graduation, I decided to revisit what I’d built before — but this time, with real understanding.
+
+                                I started learning properly through FreeCodeCamp, rebuilding my old Inventory System from scratch using only HTML, CSS, and JavaScript — no AI, no frameworks — just me applying everything I’ve learned.
+
+                                At the same time, I began building this portfolio with React. I wanted to see how far I could go combining what I already know with what I’m still learning, using tools like AI not as a crutch, but as a creative partner.
+
+                                This phase is all about rediscovery — learning fundamentals again, exploring better structure, and designing with purpose.
+                                `,
+                  github: "https://github.com/yourusername/freshmen-projects",
+                  tech: ["React", "Tailwind CSS", "Framer Motion", "Lucide React", "GitHub", "HTML", "CSS", "JavaScript", "PHP", "MySQL"],
+                  containerConfig: {
+                    bgImage: "/career-timeline-stuff/bg-tech.jpg",
+                    bgColor: "#0f242d",
+                    slides: [
+                      {
+                        title: "My new portfolio using react, tailwind, and little bit of help hihi",
+                        video: "/career-timeline-stuff/first-projects/personal-info.mp4",
+                        overlayImage:
+                          "/career-timeline-stuff/first-projects/personal-info.png",
+                      },
+                      {
+                        title: "Rebuilding one of my thesis projects into how I'd inmagined it",
+                        video: "/career-timeline-stuff/first-projects/christmas-forms.mp4",
+                        overlayImage:
+                          "/career-timeline-stuff/first-projects/christmas-forms.PNG",
+                      },
+                      {
+                        title: "Learning for real now, no AI, well a little bit",
+                        video: "/career-timeline-stuff/first-projects/interests-frameset.mp4",
+                        overlayImage:
+                          "/career-timeline-stuff/first-projects/interests-frameset.png",
+                      },
+                    ],
+                  },
+                },
+
               ]}
             />
+          </section>
+
+          {/* Timeline section */}
+          <section id="skills" className="w-full mt-10">
+            <Skills />
           </section>
         </main>
       )}

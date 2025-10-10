@@ -14,7 +14,6 @@ import {
   faAndroid,
 } from "@fortawesome/free-brands-svg-icons"
 
-
 type Slide = {
   title?: string
   video?: string
@@ -214,7 +213,7 @@ export default function CareerTimeline({ sections }: { sections: Section[] }) {
         {/* Right side — sticky media */}
         <div
           ref={containerRef}
-          className="w-[480px] sticky top-24 h-[470px] rounded-xl shadow-lg overflow-hidden select-none"
+          className="w-[480px] sticky top-24 h-[470px] rounded-xl shadow-lg overflow-hidden select-none relative"
           style={{
             backgroundColor: bgColor || "rgba(255,255,255,0.05)",
             backgroundImage: bgImage ? `url(${bgImage})` : undefined,
@@ -225,7 +224,7 @@ export default function CareerTimeline({ sections }: { sections: Section[] }) {
           onMouseLeave={() => setIsPaused(false)}
         >
           {/* Gradient overlay */}
-          <div className="absolute inset-0 pointer-events-none z-30"/>
+          <div className="absolute inset-0 pointer-events-none z-30" />
 
           {/* Slides Wrapper */}
           <motion.div
@@ -247,7 +246,6 @@ export default function CareerTimeline({ sections }: { sections: Section[] }) {
                 )}
 
                 {/* --- Video --- */}
-                {/* --- Video --- */}
                 {slide.video && (
                   <motion.video
                     src={slide.video}
@@ -260,7 +258,7 @@ export default function CareerTimeline({ sections }: { sections: Section[] }) {
                       slide.customId === "for-class-funds"
                         ? "top-[90px] right-8 w-[140px] z-30"
                         : slide.customId === "for-capstone-thesis"
-                        ? "top-[120px] left-[50px] w-[360px] z-20 hidden" // 👈 your new clause
+                        ? "top-[120px] left-[50px] w-[360px] z-20 hidden"
                         : "top-[108px] left-7 w-[400px] z-20"
                     }`}
                     style={{
@@ -277,24 +275,29 @@ export default function CareerTimeline({ sections }: { sections: Section[] }) {
                   />
                 )}
 
-
-                {/* --- Overlay Image --- */}
+                {/* --- Overlay Image / Special Bouncing Logo --- */}
                 {slide.overlayImage && (
-                  <motion.img
-                    src={slide.overlayImage}
-                    alt="overlay"
-                    className={`absolute rounded-[4px] pointer-events-none ${
-                      slide.customId === "for-class-funds"
-                        ? "top-[110px] left-8 w-[370px] z-20"
-                        : slide.customId === "for-capstone-thesis"
-                        ? "bottom-24 left-1/2 -translate-x-1/2 w-[410px] z-30"
-                        : "bottom-12 right-7 w-[290px] z-30"
-                    }`}
-                    style={{
-                      boxShadow:
-                        "0px 8px 16px rgba(0, 0, 0, 0.45), 0px -2px 6px rgba(0, 0, 0, 0.15)",
-                    }}
-                  />
+                  <>
+                    {slide.customId === "internship-logo-bounce" ? (
+                      <BouncingLogo logo={slide.overlayImage} />
+                    ) : (
+                      <motion.img
+                        src={slide.overlayImage}
+                        alt="overlay"
+                        className={`absolute rounded-[4px] pointer-events-none ${
+                          slide.customId === "for-class-funds"
+                            ? "top-[110px] left-8 w-[370px] z-20"
+                            : slide.customId === "for-capstone-thesis"
+                            ? "bottom-24 left-1/2 -translate-x-1/2 w-[410px] z-30"
+                            : "bottom-12 right-7 w-[290px] z-30"
+                        }`}
+                        style={{
+                          boxShadow:
+                            "0px 8px 16px rgba(0, 0, 0, 0.45), 0px -2px 6px rgba(0, 0, 0, 0.15)",
+                        }}
+                      />
+                    )}
+                  </>
                 )}
               </div>
             ))}
@@ -318,6 +321,57 @@ export default function CareerTimeline({ sections }: { sections: Section[] }) {
           )}
         </div>
       </div>
+    </div>
+  )
+}
+
+/* --- Bouncing DVD-Logo Component --- */
+function BouncingLogo({ logo }: { logo: string }) {
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [vel, setVel] = useState<[number, number]>([
+    Math.random() * 1.5 + 0.8,
+    Math.random() * 1.5 + 0.8,
+  ])
+
+  useEffect(() => {
+    let frame: number
+
+    const move = () => {
+      const container = containerRef.current
+      if (!container) return
+
+      const rect = container.getBoundingClientRect()
+      const width = 140
+      const height = 80
+
+      let newX = x.get() + vel[0]
+      let newY = y.get() + vel[1]
+
+      if (newX <= 0 || newX + width >= rect.width)
+        setVel(([vx, vy]) => [-vx, vy])
+      if (newY <= 0 || newY + height >= rect.height)
+        setVel(([vx, vy]) => [vx, -vy])
+
+      x.set(newX)
+      y.set(newY)
+
+      frame = requestAnimationFrame(move)
+    }
+
+    frame = requestAnimationFrame(move)
+    return () => cancelAnimationFrame(frame)
+  }, [vel])
+
+  return (
+    <div ref={containerRef} className="absolute inset-0 overflow-hidden z-50">
+      <motion.img
+        src={logo}
+        alt="Bouncing internship logo"
+        className="absolute w-[140px] h-[80px] object-contain opacity-90 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+        style={{ x, y }}
+      />
     </div>
   )
 }
