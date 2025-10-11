@@ -59,8 +59,7 @@ export default function Skills() {
   return (
     <section className="relative w-full h-[150vh] flex flex-col justify-end overflow-hidden">
   {/* gradient background */}
-  <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_0%,transparent_10%,rgba(12,18,32,0.6)_90%,rgba(12,18,32,0.65)_50%,black_100%)]" />
-
+  <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_0%,transparent_10%,rgba(12,18,32,0.6)_70%,rgba(12,18,32,0.65)_85%,rgba(0,0,0,0.8)_100%)]" />
 
   {/* Header (optional – can keep at top area) */}
   <motion.div

@@ -5,6 +5,7 @@ import Welcome from "../screens/Welcome"
 import Introduction from "../screens/Introduction"
 import CareerTimeline from "../screens/CareerTimeline"
 import Skills from "../screens/Skills"
+import Footer from "../screens/Footer"
 
 export default function Home() {
   const [phase, setPhase] = useState<"intro" | "transition" | "main">("intro")
@@ -289,6 +290,12 @@ export default function Home() {
           <section id="skills" className="w-full mt-10">
             <Skills />
           </section>
+
+          {/* Footer */}
+          <footer className="w-full">
+            <Footer />
+          </footer>
+
         </main>
       )}
     </div>
