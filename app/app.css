@@ -1,7 +1,5 @@
-/* @font-face {
-  font-family: Audiowide;
-  src: url("../public/Audiowide-Regular.ttf");
-} */
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
 @import "tailwindcss";
 
 @theme {
