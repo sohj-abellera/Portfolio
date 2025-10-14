@@ -30,7 +30,9 @@ type ContainerConfig = {
 type Section = {
   year?: string
   title: string
-  description: string
+  description?: string // keep for backward compatibility
+  descriptionStanzas?: string[] // multiple paragraph support
+  takeaways?: string[] // bullet-style list
   github?: string
   tech?: string[]
   containerConfig: ContainerConfig
@@ -140,11 +142,11 @@ export default function CareerTimeline({ sections }: { sections: Section[] }) {
   }, [activeSection])
 
   return (
-    <div className="w-full bg-black/80 border-t border-b border-white/10 py-20 text-white">
+    <div className=" w-full bg-black/80 border-t border-b border-white/10 py-20 text-white">
       {/* Header */}
       <div className="w-full flex flex-col items-center text-center mb-30">
-        <h1 className="text-3xl font-bold mb-4">Career Timeline</h1>
-        <p className="text-gray-300 text-[16px] leading-relaxed max-w-6xl">
+        <h1 className="font-montserrat text-3xl font-bold mb-4">Career Timeline</h1>
+        <p className="font-lexend text-gray-300 font-[300] text-[16px] leading-relaxed max-w-6xl">
           A look at my journey so far — from being unexpectedly assigned as the
           leader for a website project, to discovering my genuine interest in web
           development. What started as a simple task quickly turned into a passion.
@@ -158,7 +160,7 @@ export default function CareerTimeline({ sections }: { sections: Section[] }) {
         {/* Left side */}
         <div className="flex-1 flex flex-col space-y-20 pb-60">
           <div className="mb-15">
-            <h2 className="text-6xl font-extrabold text-white mb-6">
+            <h2 className="font-lexend text-6xl font-extrabold text-white mb-6">
               Let’s dive in.
             </h2>
           </div>
@@ -172,9 +174,9 @@ export default function CareerTimeline({ sections }: { sections: Section[] }) {
 
               className="scroll-trigger"
             >
-              <p className="text-sm text-gray-400 mb-1">{section.year}</p>
-              <h3 className="text-2xl font-bold mb-3">{section.title}</h3>
-              <p className="text-gray-300 leading-relaxed mb-5 whitespace-pre-line">
+              <p className="font-montserrat text-sm text-gray-400">{section.year}</p>
+              <h3 className="font-montserrat text-[28px] font-bold mb-4">{section.title}</h3>
+              <p className="font-lexend text-gray-300 font-[300] leading-relaxed mb-5 whitespace-pre-line">
                 {section.description}
               </p>
 
@@ -213,7 +215,7 @@ export default function CareerTimeline({ sections }: { sections: Section[] }) {
         {/* Right side — sticky media */}
         <div
           ref={containerRef}
-          className="w-[480px] sticky top-24 h-[470px] rounded-xl shadow-lg overflow-hidden select-none relative"
+          className="w-[480px] sticky top-24 h-[470px] rounded-xl shadow-lg overflow-hidden select-none tracking-[0.2px]"
           style={{
             backgroundColor: bgColor || "rgba(255,255,255,0.05)",
             backgroundImage: bgImage ? `url(${bgImage})` : undefined,
@@ -223,6 +225,26 @@ export default function CareerTimeline({ sections }: { sections: Section[] }) {
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
+          {/* Base background */}
+          <div
+            className="absolute inset-0 rounded-xl backdrop-blur-md bg-white/[0.03] border border-white/10"
+            style={{
+              backgroundColor: bgColor || "rgba(255,255,255,0.03)",
+              backgroundImage: bgImage ? `url(${bgImage})` : undefined,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+
+          {/* Subtle edge glow */}
+          <div className="absolute inset-0 rounded-xl border border-white/20 shadow-[inset_0_0_15px_rgba(255,255,255,0.15)] pointer-events-none" />
+
+          {/* Light reflection overlay */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-white/5 opacity-60 rounded-xl pointer-events-none" />
+
+          {/* Faint glass tint */}
+          <div className="absolute inset-0 bg-white/3 mix-blend-overlay pointer-events-none rounded-xl" />
+
           {/* Gradient overlay */}
           <div className="absolute inset-0 pointer-events-none z-30" />
 
@@ -239,7 +261,7 @@ export default function CareerTimeline({ sections }: { sections: Section[] }) {
               <div key={i} className="w-[480px] h-full relative flex-shrink-0">
                 {slide.title && (
                   <div className="absolute top-7 left-9 right-6 z-10">
-                    <h3 className="text-2xl font-extrabold text-white drop-shadow-md">
+                    <h3 className="text-2xl font-lexend font-extrabold text-white drop-shadow-md">
                       {slide.title}
                     </h3>
                   </div>

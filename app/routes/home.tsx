@@ -74,22 +74,22 @@ export default function Home() {
                   tech: ["HTML", "CSS"],
                   containerConfig: {
                     bgImage: "/career-timeline-stuff/bg-tech.jpg",
-                    bgColor: "#0f242d",
+                    bgColor: "#1e1e1e",
                     slides: [
                       {
-                        title: "My very first website — awkward but kinda special.",
+                        title: "Personal Info Website — My First HTML Project.",
                         video: "/career-timeline-stuff/first-projects/personal-info.mp4",
                         overlayImage:
                           "/career-timeline-stuff/first-projects/personal-info.png",
                       },
                       {
-                        title: "Christmas-themed forms with some Christmas-related animations",
+                        title: "Animated Christmas Forms — Early UI Experiment.",
                         video: "/career-timeline-stuff/first-projects/christmas-forms.mp4",
                         overlayImage:
                           "/career-timeline-stuff/first-projects/christmas-forms.PNG",
                       },
                       {
-                        title: "The one where I discovered anything can be animated in CSS",
+                        title: "Interests Page — Discovering CSS Animations",
                         video: "/career-timeline-stuff/first-projects/interests-frameset.mp4",
                         overlayImage:
                           "/career-timeline-stuff/first-projects/interests-frameset.png",
