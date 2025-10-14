@@ -25,12 +25,12 @@ export default function Home() {
           <motion.div
             key="welcome"
             initial={{ y: 0 }}
-            exit={{ y: "-100%" }}
+            exit={{ y: "-100vh" }}
             transition={{
-              duration: 0.8,
+              duration: 1.3,
               ease: [0.21, 0.58, 0.54, 0.98],
             }}
-            className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-10"
+            className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-10"
           >
             <Welcome
               text="Welcome to My Portfolio Website.😊"

@@ -1,6 +1,9 @@
 //app/screens/Introduction
-import { Moon, Github, Linkedin, Mail, FileDown } from "lucide-react";
+import { Moon, Mail, FileDown } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { motion, type Variants } from "framer-motion";
+import SocialIcon from "~/components/SocialIcon";
 
 const blockVariant: Variants = {
   hidden: { y: "100vh", opacity: 0 },
@@ -30,7 +33,7 @@ export default function Introduction({ timings = [] as BlockTiming[] }) {
         variants={blockVariant}
         className="h-[50px] flex justify-between items-end"
       >
-        <h1 className="font-bold text-lg relative top-[2px]">sohj.abe</h1>
+        <h1 className="font-anta text-lg relative top-[2px]">sohj.abe</h1>
         <Moon className="w-5 h-5" />
       </motion.div>
 
@@ -40,14 +43,25 @@ export default function Introduction({ timings = [] as BlockTiming[] }) {
         <motion.div
           custom={timings[1]}
           variants={blockVariant}
-          className="flex-shrink-0"
+          className="relative flex-shrink-0 w-[360px] rounded-[7px] overflow-hidden shadow-[0_0_30px_rgba(255,255,255,0.15)]"
         >
+          {/* Photo */}
           <img
             src="/profile-pics/barong-shot.jpg"
             alt="Carlo Joshua B. Abellera"
-            className="w-[380px] object-cover rounded-[6px] shadow-lg"
+            className="w-full object-cover rounded-[7px]"
           />
+
+          {/* subtle inner highlight around edges */}
+          <div className="absolute inset-0 rounded-[7px] border border-white/20 shadow-[inset_0_0_15px_rgba(255,255,255,0.2)]" />
+
+          {/* soft light reflection overlay */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-white/5 opacity-70 pointer-events-none" />
+
+          {/* faint glass tint */}
+          <div className="absolute inset-0 bg-white/3 mix-blend-overlay pointer-events-none rounded-[7px]" />
         </motion.div>
+
 
         {/* Right side */}
         <div className="flex flex-col">
@@ -55,7 +69,7 @@ export default function Introduction({ timings = [] as BlockTiming[] }) {
           <motion.p
             custom={timings[2]}
             variants={blockVariant}
-            className="text-gray-300 font-bold text-[18px] mb-3"
+            className="font-montserrat text-gray-300 font-bold text-[16px] mb-3"
           >
             Hi! I’m Carlo Joshua B. Abellera,
             and I enjoy
@@ -64,8 +78,8 @@ export default function Introduction({ timings = [] as BlockTiming[] }) {
           {/* Heading */}
           <motion.h2
             custom={timings[3]}
-            variants={blockVariant}
-            className="text-6xl font-extrabold leading-tight mb-14"
+            variants={blockVariant} 
+            className="font-anta text-[63px] font-extrabold leading-tight mb-14"
           >
             Building pixel-perfect <br />
             <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
@@ -78,7 +92,7 @@ export default function Introduction({ timings = [] as BlockTiming[] }) {
           <motion.p
             custom={timings[4]}
             variants={blockVariant}
-            className="text-white text-[26px] font-bold mb-6"
+            className="font-montserrat font-extrabold text-white text-[26px] mb-10 tracking-wide"
           >
             Full Stack Developer
           </motion.p>
@@ -87,20 +101,28 @@ export default function Introduction({ timings = [] as BlockTiming[] }) {
           <motion.div
             custom={timings[5]}
             variants={blockVariant}
-            className="flex gap-4"
+            className="flex flex-wrap gap-3"
           >
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer">
-              <Linkedin className="w-8 h-8 hover:text-blue-400 transition-colors" />
-            </a>
-            <a href="https://github.com" target="_blank" rel="noreferrer">
-              <Github className="w-8 h-8 hover:text-gray-400 transition-colors" />
-            </a>
-            <a href="mailto:your@email.com">
-              <Mail className="w-8 h-8 hover:text-red-400 transition-colors" />
-            </a>
-            <a href="/resume.pdf" download>
-              <FileDown className="w-8 h-8 hover:text-green-400 transition-colors" />
-            </a>
+            <SocialIcon
+              icon={<FontAwesomeIcon icon={faGithub} className="w-[20px] h-[20px] translate-y-[1.2px] -translate-x-[0.5px]" />}
+              label="GitHub"
+              href="https://github.com"
+            />
+            <SocialIcon
+              icon={<FontAwesomeIcon icon={faLinkedin} className="w-[20px] h-[20px] translate-y-[1.2px] -translate-x-[0.6px]" />}
+              label="LinkedIn"
+              href="https://linkedin.com"
+            />
+            <SocialIcon
+              icon={<Mail className="w-[20px] h-[20px] -translate-y-[0.5px] -translate-x-[0.6px]" />}
+              label="Email"
+              href="mailto:carlojoshua.abellera.ph@gmail.com"
+            />
+            <SocialIcon
+              icon={<FileDown className="w-[20px] h-[20px] -translate-y-[0.5px] -translate-x-[0.6px]" />}
+              label="Resume"
+              href="/resume.pdf"
+            />
           </motion.div>
         </div>
       </div>
