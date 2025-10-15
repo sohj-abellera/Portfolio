@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, type JSX } from "react"
 import { motion, useMotionValue, animate } from "framer-motion"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { BookOpen, Star } from "lucide-react";
 import {
   faHtml5,
   faCss3Alt,
@@ -27,14 +28,21 @@ type ContainerConfig = {
   slides?: Slide[]
 }
 
+type SubProject = {
+  label?: string // optional (like "2nd Project")
+  github?: string
+  tech?: string[]
+}
+
 type Section = {
   year?: string
   title: string
-  description?: string // keep for backward compatibility
-  descriptionStanzas?: string[] // multiple paragraph support
-  takeaways?: string[] // bullet-style list
+  description?: string
+  descriptionStanzas?: string[]
+  takeaways?: string[]
   github?: string
   tech?: string[]
+  subProjects?: SubProject[] // new
   containerConfig: ContainerConfig
 }
 
@@ -45,8 +53,39 @@ const techIconMap: Record<string, JSX.Element> = {
   React: <FontAwesomeIcon icon={faReact} className="text-cyan-400" />,
   GitHub: <FontAwesomeIcon icon={faGithub} className="text-gray-300" />,
   Bootstrap: <FontAwesomeIcon icon={faBootstrap} className="text-purple-400" />,
-  Node: <FontAwesomeIcon icon={faNodeJs} className="text-green-400" />,
+  NodeJS: <FontAwesomeIcon icon={faNodeJs} className="text-green-500" />,
+  PHP: <FontAwesomeIcon icon={faPhp} className="text-indigo-400" />,
+  Java: <FontAwesomeIcon icon={faJava} className="text-red-500" />,
+  Android: <FontAwesomeIcon icon={faAndroid} className="text-green-400" />,
+
+  // 🧩 new additions:
+  "Android Studio": (
+    <FontAwesomeIcon icon={faAndroid} className="text-[#3DDC84]" />
+  ),
+  Firebase: (
+    <img
+      src="https://www.svgrepo.com/show/353735/firebase.svg"
+      alt="Firebase"
+      className="w-4 h-4"
+    />
+  ),
+  MySQL: (
+    <img
+      src="https://www.svgrepo.com/show/303251/mysql-logo.svg"
+      alt="MySQL"
+      className="w-4 h-4"
+    />
+  ),
+  Tailwind: (
+    <img
+      src="https://www.svgrepo.com/show/354431/tailwindcss-icon.svg"
+      alt="Tailwind CSS"
+      className="w-4 h-4"
+    />
+  ),
 }
+
+
 
 export default function CareerTimeline({ sections }: { sections: Section[] }) {
   const [activeSection, setActiveSection] = useState(0)
@@ -118,28 +157,43 @@ export default function CareerTimeline({ sections }: { sections: Section[] }) {
 
   // --- track scroll position ---
   useEffect(() => {
-    const container = containerRef.current
-    if (!container) return
+  const container = containerRef.current
+  if (!container) return
 
-    const handleScroll = () => {
-      const containerRect = container.getBoundingClientRect()
-      const midpoint = containerRect.top + containerRect.height / 2
+  const handleScroll = () => {
+    const containerRect = container.getBoundingClientRect()
+    const midpoint = containerRect.top + containerRect.height / 2
 
-      sectionRefs.current.forEach((ref, index) => {
-        if (!ref) return
-        const rect = ref.getBoundingClientRect()
-        const top = rect.top
-        const bottom = rect.bottom
+    sectionRefs.current.forEach((ref, index) => {
+      if (!ref) return
+      const rect = ref.getBoundingClientRect()
+      const top = rect.top
+      const bottom = rect.bottom
 
-        if (top <= midpoint && bottom >= midpoint) {
-          if (activeSection !== index) setActiveSection(index)
+      if (top <= midpoint && bottom >= midpoint) {
+        if (activeSection !== index) {
+          setActiveSection(index)
+          setActiveSlide(0) // 🟢 reset slide index
+          x.set(0) // instantly reset position, no slide animation // 🟢 reset position
         }
-      })
-    }
+      }
+    })
+  }
 
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [activeSection])
+
+  // --- prevent lingering image/frame between section switches ---
+  useEffect(() => {
+    // hide content for a single frame before showing new section
+    const raf = requestAnimationFrame(() => {
+      x.set(0)
+      setActiveSlide(0)
+    })
+    return () => cancelAnimationFrame(raf)
+  }, [activeSection])
+
 
   return (
     <div className=" w-full bg-black/80 border-t border-b border-white/10 py-20 text-white">
@@ -171,43 +225,101 @@ export default function CareerTimeline({ sections }: { sections: Section[] }) {
               ref={(el) => {
                 sectionRefs.current[i] = el
               }}
-
-              className="scroll-trigger"
+              className={`scroll-trigger transition-opacity duration-300 ${
+                i === activeSection ? "opacity-100" : "opacity-40"
+              }`}
             >
               <p className="font-montserrat text-sm text-gray-400">{section.year}</p>
               <h3 className="font-montserrat text-[28px] font-bold mb-4">{section.title}</h3>
-              <p className="font-lexend text-gray-300 font-[300] leading-relaxed mb-5 whitespace-pre-line">
-                {section.description}
-              </p>
 
-              {/* Tech + GitHub container */}
-              <div className="flex flex-wrap items-center gap-3 mb-4">
-                {section.github && (
-                  <a
-                    href={section.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-full bg-white/5 border border-white/10 text-gray-200 px-4 py-1.5 text-sm font-medium hover:bg-white/10 transition"
-                  >
-                    <FontAwesomeIcon
-                      icon={faGithub}
-                      className="mr-2 text-gray-300 group-hover:text-white"
-                    />
-                    Source Code
-                  </a>
-                )}
+              <DescriptionPanel
+                descriptionStanzas={section.descriptionStanzas || []}
+                takeaways={section.takeaways}
+              />
 
-                {section.tech?.map((tech, j) => (
-                  <motion.div
-                    key={j}
-                    whileHover={{ scale: 1.1 }}
-                    className="rounded-full bg-white/5 border border-white/10 text-gray-200 px-4 py-1.5 text-sm font-medium hover:bg-white/10 transition flex items-center gap-2"
-                  >
-                    {techIconMap[tech] || null}
-                    <span>{tech}</span>
-                  </motion.div>
-                ))}
-              </div>
+              {/* Tech + GitHub */}
+              {section.subProjects ? (
+                section.subProjects.map((proj, idx) => (
+                  <div key={idx} className="flex flex-col w-full mb-5">
+                    {/* optional separator if not first */}
+                    {idx > 0 && (
+                      <div className="flex items-center justify-center w-full mb-5">
+                        <div className="h-px bg-white/10 flex-grow" />
+                        <span className="px-4 text-gray-400 text-xs font-montserrat tracking-wider uppercase">
+                          {proj.label || `Project ${idx + 1}`}
+                        </span>
+                        <div className="h-px bg-white/10 flex-grow" />
+                      </div>
+                    )}
+
+                    <div className="flex flex-wrap items-center gap-4">
+                      {proj.github && (
+                        <>
+                          <a
+                            href={proj.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 rounded-[6px] bg-white/2 border border-white/6 text-gray-300 px-5 py-1 text-sm font-medium font-montserrat"
+                          >
+                            <FontAwesomeIcon
+                              icon={faGithub}
+                              className="text-gray-100 group-hover:text-white"
+                            />
+                          Source Code
+                          </a>
+
+                          {proj.tech && proj.tech.length > 0 && (
+                            <span className="text-gray-400 text-lg select-none">•</span>
+                          )}
+                        </>
+                      )}
+
+                      {proj.tech?.map((tech, j) => (
+                        <div
+                          key={j}
+                          className="flex items-center gap-2 rounded-[6px] bg-white/2 border border-white/6 text-gray-300 px-5 py-1 text-sm font-medium font-montserrat"
+                        >
+                          {techIconMap[tech] || null}
+                          <span>{tech}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="flex flex-wrap items-center gap-4 mb-4">
+                  {section.github && (
+                    <>
+                      <a
+                        href={section.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 rounded-[6px] bg-white/2 border border-white/6 text-gray-300 px-5 py-1 text-sm font-medium font-montserrat"
+                      >
+                        <FontAwesomeIcon
+                          icon={faGithub}
+                          className="text-gray-100 group-hover:text-white"
+                        />
+                        Source Code
+                      </a>
+
+                      {section.tech && section.tech.length > 0 && (
+                        <span className="text-gray-400 text-lg select-none">•</span>
+                      )}
+                    </>
+                  )}
+
+                  {section.tech?.map((tech, j) => (
+                    <div
+                      key={j}
+                      className="flex items-center gap-2 rounded-[6px] bg-white/2 border border-white/6 text-gray-300 px-5 py-1 text-sm font-medium font-montserrat"
+                    >
+                      {techIconMap[tech] || null}
+                      <span>{tech}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -250,13 +362,20 @@ export default function CareerTimeline({ sections }: { sections: Section[] }) {
 
           {/* Slides Wrapper */}
           <motion.div
-            className="flex absolute top-0 left-0 h-full cursor-grab active:cursor-grabbing z-40"
-            drag="x"
-            dragConstraints={{ left: -(totalWidth - slideWidth), right: 0 }}
+            className={`flex absolute top-0 left-0 h-full z-40 ${
+              totalSlides > 1 ? "cursor-grab active:cursor-grabbing" : "cursor-default"
+            }`}
+            drag={totalSlides > 1 ? "x" : false}
+            dragConstraints={
+              totalSlides > 1
+                ? { left: -(totalWidth - slideWidth), right: 0 }
+                : { left: 0, right: 0 }
+            }
             style={{ x }}
-            onDragEnd={handleDragEnd}
-            onDragStart={() => setIsPaused(true)}
+            onDragEnd={totalSlides > 1 ? handleDragEnd : undefined}
+            onDragStart={totalSlides > 1 ? () => setIsPaused(true) : undefined}
           >
+
             {slides.map((slide, i) => (
               <div key={i} className="w-[480px] h-full relative flex-shrink-0">
                 {slide.title && (
@@ -278,7 +397,7 @@ export default function CareerTimeline({ sections }: { sections: Section[] }) {
                     playsInline
                     className={`absolute object-cover rounded-[8px] ${
                       slide.customId === "for-class-funds"
-                        ? "top-[90px] right-8 w-[140px] z-30"
+                        ? "top-[100px] right-8 w-[140px] z-30"
                         : slide.customId === "for-capstone-thesis"
                         ? "top-[120px] left-[50px] w-[360px] z-20 hidden"
                         : "top-[108px] left-7 w-[400px] z-20"
@@ -308,9 +427,9 @@ export default function CareerTimeline({ sections }: { sections: Section[] }) {
                         alt="overlay"
                         className={`absolute rounded-[4px] pointer-events-none ${
                           slide.customId === "for-class-funds"
-                            ? "top-[110px] left-8 w-[370px] z-20"
+                            ? "top-[120px] left-8 w-[370px] z-20"
                             : slide.customId === "for-capstone-thesis"
-                            ? "bottom-24 left-1/2 -translate-x-1/2 w-[410px] z-30"
+                            ? "bottom-28 left-1/2 -translate-x-1/2 w-[410px] z-30"
                             : "bottom-12 right-7 w-[290px] z-30"
                         }`}
                         style={{
@@ -394,6 +513,83 @@ function BouncingLogo({ logo }: { logo: string }) {
         className="absolute w-[140px] h-[80px] object-contain opacity-90 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
         style={{ x, y }}
       />
+    </div>
+  )
+}
+
+function DescriptionPanel({
+  descriptionStanzas,
+  takeaways,
+}: {
+  descriptionStanzas: string[]
+  takeaways?: string[]
+}) {
+  const [showTakeaways, setShowTakeaways] = useState(false)
+
+  const tabs = [
+    { id: "story", icon: <BookOpen size={18} />, title: "Story" },
+    { id: "takeaways", icon: <Star size={18} />, title: "Takeaways" },
+  ]
+
+  return (
+    <div className="relative flex items-stretch -ml-10">
+      {/* Vertical Chrome-like tabs */}
+      {takeaways && (
+        <div className="flex flex-col gap-2">
+          {tabs.map((tab, i) => {
+            const active =
+              (tab.id === "takeaways" && showTakeaways) ||
+              (tab.id === "story" && !showTakeaways)
+
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setShowTakeaways(tab.id === "takeaways")}
+                className={`relative flex items-center justify-center pr-[24px] pt-[7px] transition-all cursor-pointer
+                  ${
+                    active
+                      ? "text-yellow-400 z-10"
+                      : "bg-transparent text-white/70 hover:text-white opacity-80 hover:opacity-100"
+                  }
+                  rounded-l-[8px]
+                `}
+                title={tab.title}
+              >
+                {tab.icon}
+              </button>
+            )
+          })}
+        </div>
+      )}
+
+      {/* Content box fully merged with active tab */}
+      <div
+        className={`flex-1 rounded-r-[8px] backdrop-blur-sm space-y-4 font-lexend font-[200] tracking-[.5px] mb-5`}
+      >
+        {/* Story Mode */}
+        {!showTakeaways &&
+          descriptionStanzas.map((text, i) => (
+            <p key={i} className="text-neutral-150 leading-relaxed">
+              {text}
+            </p>
+          ))}
+
+        {/* Takeaways Mode */}
+        {showTakeaways && takeaways && (
+          <div className="space-y-2">
+            {takeaways.map((item, i) => (
+              <div key={i} className="flex items-start gap-[7px]">
+                {/* bullet */}
+                <div className="w-[4px] h-[4px] mt-[11px] rounded-full bg-white shrink-0" />
+                {/* text */}
+                <div className="text-neutral-150 leading-relaxed">
+                  {item}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
