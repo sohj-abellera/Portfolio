@@ -17,9 +17,9 @@ export default function SocialIcon({ icon, label, href }: SocialIconProps) {
       rel="noreferrer"
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
-      className="relative flex items-center overflow-hidden h-[44px] rounded-[10px] text-white"
+      className="relative flex items-center overflow-hidden h-[50px] rounded-[10px] text-white"
       animate={{
-        width: hovered ? "120px" : "44px",
+        width: hovered ? "140px" : "44px",
       }}
       transition={{
         duration: 0.45,
@@ -57,7 +57,7 @@ export default function SocialIcon({ icon, label, href }: SocialIconProps) {
         {/* Label wrapper for reveal effect */}
         <div className="ml-2 overflow-hidden">
           <motion.span
-            className="font-montserrat text-sm text-white whitespace-nowrap block origin-left"
+            className="font-montserrat text-[18px] text-white whitespace-nowrap block origin-left"
             initial={{ scaleX: 0 }}
             animate={{ scaleX: hovered ? 1 : 0 }}
             transition={{

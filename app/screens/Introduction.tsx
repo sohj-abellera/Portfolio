@@ -101,25 +101,25 @@ export default function Introduction({ timings = [] as BlockTiming[] }) {
           <motion.div
             custom={timings[5]}
             variants={blockVariant}
-            className="flex flex-wrap gap-3"
+            className="flex flex-wrap gap-4"
           >
             <SocialIcon
-              icon={<FontAwesomeIcon icon={faGithub} className="w-[20px] h-[20px] translate-y-[1.2px] -translate-x-[0.5px]" />}
+              icon={<FontAwesomeIcon icon={faGithub} className="w-[30px] h-[30px] translate-y-[1.2px] -translate-x-[0.5px]" />}
               label="GitHub"
               href="https://github.com"
             />
             <SocialIcon
-              icon={<FontAwesomeIcon icon={faLinkedin} className="w-[20px] h-[20px] translate-y-[1.2px] -translate-x-[0.6px]" />}
+              icon={<FontAwesomeIcon icon={faLinkedin} className="w-[30px] h-[30px] translate-y-[1.2px] -translate-x-[0.6px]" />}
               label="LinkedIn"
               href="https://linkedin.com"
             />
             <SocialIcon
-              icon={<Mail className="w-[20px] h-[20px] -translate-y-[0.5px] -translate-x-[0.6px]" />}
+              icon={<Mail className="w-[30px] h-[30px] -translate-y-[0.5px] -translate-x-[0.6px]" />}
               label="Email"
               href="mailto:carlojoshua.abellera.ph@gmail.com"
             />
             <SocialIcon
-              icon={<FileDown className="w-[20px] h-[20px] -translate-y-[0.5px] -translate-x-[0.6px]" />}
+              icon={<FileDown className="w-[30px] h-[30px] -translate-y-[0.5px] -translate-x-[0.6px]" />}
               label="Resume"
               href="/resume.pdf"
             />
