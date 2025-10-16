@@ -30,7 +30,7 @@ export default function Home() {
               duration: 1.2,
               ease: [0.21, 0.58, 0.54, 0.98],
             }}
-            className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-10"
+            className="fixed top-0 left-0 z-10 flex items-center justify-center w-full h-full"
           >
             <Welcome
               text="Welcome to My Portfolio Website.😊"
@@ -46,8 +46,10 @@ export default function Home() {
 
       {/* Main content */}
       {(phase === "transition" || phase === "main") && (
-        <main className="relative w-full flex flex-col z-10 items-center">
-          <section id="intro" className="min-h-screen w-full max-w-6xl mx-auto">
+        <main className="relative z-10 flex flex-col items-center w-full">
+          <section id="intro" className="md:min-h-[650px] sm:min-h-[650px]
+                                         w-full xl:max-w-6xl lg:max-w-[975px] md:max-w-3xl sm:max-w-xl max-w-[370px] 
+                                         mx-auto">
             <Introduction
               timings={[
                 { duration: 0.8, delay: 0.0, ease: [0.21, 0.58, 0.54, 0.98] },
@@ -61,7 +63,7 @@ export default function Home() {
           </section>
 
           {/* Timeline section */}
-          <section id="timeline" className="w-full mt-10">
+          <section id="timeline" className="w-full mt-16 md:mt-10 sm:mt-16">
             <CareerTimeline
               sections={[
                 // --- 1 ---
