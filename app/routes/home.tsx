@@ -48,7 +48,7 @@ export default function Home() {
       {(phase === "transition" || phase === "main") && (
         <main className="relative z-10 flex flex-col items-center w-full">
           <section id="intro" className="md:min-h-[650px] sm:min-h-[650px]
-                                         w-full xl:max-w-6xl lg:max-w-[975px] md:max-w-3xl sm:max-w-xl max-w-[370px] 
+                                         w-full xl:max-w-6xl lg:max-w-[975px] md:max-w-[730px] sm:max-w-xl max-w-[370px] 
                                          mx-auto">
             <Introduction
               timings={[

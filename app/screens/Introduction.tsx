@@ -70,7 +70,7 @@ export default function Introduction({ timings = [] as BlockTiming[] }) {
 
       {/* Main content */}
       <div
-        className="flex flex-col items-center flex-1 w-full h-full gap-8 pt-5 text-center  sm:gap-12 sm:pt-6 md:flex-row md:gap-14 md:pt-12 md:items-start md:text-left"
+        className="flex flex-col items-center flex-1 w-full h-full gap-8 pt-5 text-center sm:gap-12 sm:pt-6 md:flex-row md:gap-12 md:pt-12 md:items-start md:text-left"
       >
         {/* Profile */}
         <motion.div
@@ -78,8 +78,8 @@ export default function Introduction({ timings = [] as BlockTiming[] }) {
           variants={blockVariant}
           className="
             relative flex-shrink-0 w-full
-            sm:max-w-full md:max-w-[355px] lg:max-w-[358px] xl:max-w-[360px]
-            sm:h-[470px] md:h-[442px] lg:h-[445px] xl:h-[447px]
+            sm:max-w-full md:max-w-[350px] lg:max-w-[358px] xl:max-w-[360px]
+            sm:h-[470px] md:h-[438px] lg:h-[445px] xl:h-[447px]
             rounded-[7px] overflow-hidden
             shadow-[0_0_30px_rgba(255,255,255,0.15)]
           "
@@ -106,7 +106,7 @@ export default function Introduction({ timings = [] as BlockTiming[] }) {
               font-montserrat font-bold text-gray-300
               text-[13px] sm:text-[13px] md:text-[13px] lg:text-[15px] xl:text-[16px]
               mb-2 sm:mb-2 md:mb-3
-              sm:mt-0 md:mt-4
+              sm:mt-0 md:mt-1
             "
           >
             Hi! I’m Carlo Joshua B. Abellera, and I enjoy
