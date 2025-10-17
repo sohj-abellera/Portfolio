@@ -85,7 +85,7 @@ export default function Introduction({ timings = [] as BlockTiming[] }) {
           "
         >
           <img
-            src="/profile-pics/barong-shot.jpg"
+            src="profile-pics/barong-shot.jpg"
             alt="Carlo Joshua B. Abellera"
             className="w-full h-full object-cover object-top rounded-[7px]"
           />

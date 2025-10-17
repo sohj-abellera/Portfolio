@@ -84,23 +84,23 @@ export default function Home() {
                   github: "https://github.com/sohj-abellera/freshmen-projects",
                   tech: ["HTML", "CSS"],
                   containerConfig: {
-                    bgImage: "/career-timeline-stuff/bg-tech.jpg",
+                    bgImage: "career-timeline-stuff/bg-tech.jpg",
                     bgColor: "#1e1e1e",
                     slides: [
                       {
                         title: "Personal Info Website — My First HTML Project.",
-                        video: "/career-timeline-stuff/first-projects/personal-info.mp4",
-                        overlayImage: "/career-timeline-stuff/first-projects/personal-info.png",
+                        video: "career-timeline-stuff/first-projects/personal-info.mp4",
+                        overlayImage: "career-timeline-stuff/first-projects/personal-info.png",
                       },
                       {
                         title: "Animated Christmas Forms — Early UI Experiment.",
-                        video: "/career-timeline-stuff/first-projects/christmas-forms.mp4",
-                        overlayImage: "/career-timeline-stuff/first-projects/christmas-forms.PNG",
+                        video: "career-timeline-stuff/first-projects/christmas-forms.mp4",
+                        overlayImage: "career-timeline-stuff/first-projects/christmas-forms.PNG",
                       },
                       {
                         title: "Interests Page — Discovering CSS Animations",
-                        video: "/career-timeline-stuff/first-projects/interests-frameset.mp4",
-                        overlayImage: "/career-timeline-stuff/first-projects/interests-frameset.png",
+                        video: "career-timeline-stuff/first-projects/interests-frameset.mp4",
+                        overlayImage: "career-timeline-stuff/first-projects/interests-frameset.png",
                       },
                     ],
                   },
@@ -129,8 +129,8 @@ export default function Home() {
                     slides: [
                       {
                         title: "My first project that actually looked how I pictured it.",
-                        video: "/career-timeline-stuff/market-square.mp4",
-                        overlayImage: "/career-timeline-stuff/market-square.PNG",
+                        video: "career-timeline-stuff/market-square.mp4",
+                        overlayImage: "career-timeline-stuff/market-square.PNG",
                       },
                     ],
                   },
@@ -156,12 +156,12 @@ export default function Home() {
                   tech: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
                   containerConfig: {
                     bgColor: "#1a1c24",
-                    bgImage: "/career-timeline-stuff/bg-ui.jpg",
+                    bgImage: "career-timeline-stuff/bg-ui.jpg",
                     slides: [
                       {
                         title: "My first smol PHP project — where I barely used PHP",
-                        video: "/career-timeline-stuff/game-space.mp4",
-                        overlayImage: "/career-timeline-stuff/game-space.PNG",
+                        video: "career-timeline-stuff/game-space.mp4",
+                        overlayImage: "career-timeline-stuff/game-space.PNG",
                       },
                     ],
                   },
@@ -193,8 +193,8 @@ export default function Home() {
                     slides: [
                       {
                         title: "My first and last Android app I hope. Java is really hard",
-                        video: "/career-timeline-stuff/class-funds.mp4",
-                        overlayImage: "/career-timeline-stuff/class-funds-4.PNG",
+                        video: "career-timeline-stuff/class-funds.mp4",
+                        overlayImage: "career-timeline-stuff/class-funds-4.PNG",
                         customId: "for-class-funds",
                       },
                     ],
@@ -226,8 +226,8 @@ export default function Home() {
                     slides: [
                       {
                         title: "My first real project — and the one I’d rebuild if I could.",
-                        video: "/career-timeline-stuff/sysarch.mp4",
-                        overlayImage: "/career-timeline-stuff/sysarch.PNG",
+                        video: "career-timeline-stuff/sysarch.mp4",
+                        overlayImage: "career-timeline-stuff/sysarch.PNG",
                       },
                     ],
                   },
@@ -255,8 +255,8 @@ export default function Home() {
                     slides: [
                       {
                         title: "Our capstone project — not the lead this time, just the debugger fixing what slipped through.",
-                        video: "/career-timeline-stuff/sysarch.mp4",
-                        overlayImage: "/career-timeline-stuff/capstone-thesis.png",
+                        video: "career-timeline-stuff/sysarch.mp4",
+                        overlayImage: "career-timeline-stuff/capstone-thesis.png",
                         customId: "for-capstone-thesis",
                       },
                     ],
@@ -284,10 +284,10 @@ export default function Home() {
 
                   containerConfig: {
                     bgColor: "black",
-                    bgImage: "/career-timeline-stuff/bg-work.jpg",
+                    bgImage: "career-timeline-stuff/bg-work.jpg",
                     slides: [
                       {
-                        overlayImage: "/career-timeline-stuff/tit-logo.png",
+                        overlayImage: "career-timeline-stuff/tit-logo.png",
                         customId: "internship-logo-bounce",
                       },
                     ],
@@ -333,13 +333,13 @@ export default function Home() {
                     slides: [
                       {
                         title: "My new portfolio using react, tailwind, and little bit of help hihi",
-                        video: "/career-timeline-stuff/first-projects/personal-info.mp4",
-                        overlayImage: "/career-timeline-stuff/first-projects/personal-info.png",
+                        video: "career-timeline-stuff/first-projects/personal-info.mp4",
+                        overlayImage: "career-timeline-stuff/first-projects/personal-info.png",
                       },
                       {
                         title: "Rebuilding one of my thesis projects into how I'd imagined it",
-                        video: "/career-timeline-stuff/first-projects/christmas-forms.mp4",
-                        overlayImage: "/career-timeline-stuff/first-projects/christmas-forms.PNG",
+                        video: "career-timeline-stuff/first-projects/christmas-forms.mp4",
+                        overlayImage: "career-timeline-stuff/first-projects/christmas-forms.PNG",
                       },
                     ],
                   },
