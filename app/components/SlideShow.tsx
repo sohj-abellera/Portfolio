@@ -16,11 +16,20 @@ export default function SlideShow({
   const [activeSlide, setActiveSlide] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const [slideWidth, setSlideWidth] = useState(480)
+  const [isMobile, setIsMobile] = useState(false)
+  const [activeVideo, setActiveVideo] = useState<string | null>(null)
   const totalSlides = slides.length
   const totalWidth = slideWidth * totalSlides
   const resumeTimer = useRef<NodeJS.Timeout | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
-  const [activeVideo, setActiveVideo] = useState<string | null>(null)
+
+  // Detect mobile screen (sm and below)
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener("resize", check)
+    return () => window.removeEventListener("resize", check)
+  }, [])
 
   const changeSlide = (index: number, userAction = false) => {
     if (index < 0) index = totalSlides - 1
@@ -112,6 +121,7 @@ export default function SlideShow({
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
+      {/* Overlays */}
       <div
         className="absolute inset-0 rounded-xl backdrop-blur-md bg-white/[0.03] border border-white/10"
         style={{
@@ -121,12 +131,12 @@ export default function SlideShow({
           backgroundPosition: "center",
         }}
       />
-
       <div className="absolute inset-0 rounded-xl border border-white/20 shadow-[inset_0_0_15px_rgba(255,255,255,0.15)] pointer-events-none" />
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-tr from-white/10 via-transparent to-white/5 opacity-60 rounded-xl" />
       <div className="absolute inset-0 pointer-events-none bg-white/3 mix-blend-overlay rounded-xl" />
       <div className="absolute inset-0 z-30 pointer-events-none" />
 
+      {/* Slides */}
       <motion.div
         className={`flex absolute top-0 left-0 h-full z-40 ${
           totalSlides > 1 ? "cursor-grab active:cursor-grabbing" : "cursor-default"
@@ -155,35 +165,65 @@ export default function SlideShow({
               </div>
             )}
 
-            {slide.video && (
-              <motion.video
-                src={slide.video}
-                preload="auto"
-                autoPlay
-                loop
-                muted
-                playsInline
-                className={`absolute object-cover rounded-[4px] ${
-                  slide.customId === "for-class-funds"
-                    ? "top-[110px] sm:top-[100px] md:top-[85px] xl:top-[100px] right-8 w-[95px] sm:w-[180px] md:w-[110px] lg:w-[130px] xl:w-[150px] z-30"
-                    : slide.customId === "for-capstone-thesis"
-                    ? "top-[120px] left-[50px] w-[360px] z-20 hidden"
-                    : "xl:top-[108px] lg:top-[100px] md:top-[90px] sm:top-[108px] top-[120px] left-7 xl:w-[400px] lg:w-[340px] md:w-[280px] sm:w-[430px] w-[240px] z-20"
-                }`}
-                style={{
-                  boxShadow:
-                    "0px 8px 16px rgba(0, 0, 0, 0.45), 0px -2px 6px rgba(0, 0, 0, 0.15)",
-                }}
-                whileHover={{
-                  scale: 1.03,
-                  boxShadow:
-                    "0px 8px 18px rgba(0, 0, 0, 0.45), 0px 4px 10px rgba(0, 0, 0, 0.25)",
-                  zIndex: 40,
-                }}
-                transition={{ type: "spring", stiffness: 220, damping: 18 }}
-              />
-            )}
+            {/* Video */}
+{slide.video && (
+  <motion.video
+  src={slide.video}
+  preload="auto"
+  autoPlay
+  loop
+  muted
+  playsInline
+  className={`absolute object-cover rounded-[4px] ${
+    slide.customId === "for-class-funds"
+      ? "top-[110px] sm:top-[100px] md:top-[85px] xl:top-[100px] right-8 w-[95px] sm:w-[180px] md:w-[110px] lg:w-[130px] xl:w-[150px]"
+      : slide.customId === "for-capstone-thesis"
+      ? "top-[120px] left-[50px] w-[360px] hidden"
+      : "xl:top-[108px] lg:top-[100px] md:top-[90px] sm:top-[108px] top-[120px] left-7 xl:w-[400px] lg:w-[340px] md:w-[280px] sm:w-[430px] w-[240px]"
+  }`}
+  style={{
+    boxShadow:
+      "0px 8px 16px rgba(0, 0, 0, 0.45), 0px -2px 6px rgba(0, 0, 0, 0.15)",
+    zIndex:
+      isMobile && activeVideo === slide.video
+        ? 45 // mobile: tapped (on top)
+        : 20, // default
+  }}
+  onClick={() => {
+    if (isMobile) {
+      setActiveVideo(activeVideo === slide.video ? null : slide.video ?? null)
+    }
+  }}
+  whileHover={
+    !isMobile
+      ? {
+          scale: 1.03,
+          boxShadow:
+            "0px 8px 18px rgba(0, 0, 0, 0.45), 0px 4px 10px rgba(0, 0, 0, 0.25)",
+          zIndex: 45,
+        }
+      : undefined
+  }
+  animate={
+    isMobile && activeVideo === slide.video
+      ? {
+          scale: 1.03,
+          boxShadow:
+            "0px 8px 18px rgba(0, 0, 0, 0.45), 0px 4px 10px rgba(0, 0, 0, 0.25)",
+        }
+      : {
+          scale: 1,
+          boxShadow:
+            "0px 8px 16px rgba(0, 0, 0, 0.45), 0px -2px 6px rgba(0, 0, 0, 0.15)",
+        }
+  }
+  transition={{ type: "spring", stiffness: 220, damping: 18 }}
+/>
 
+)}
+
+
+            {/* Overlay Images */}
             {slide.overlayImage && (
               <>
                 {slide.customId === "internship-logo-bounce" ? (
@@ -194,7 +234,7 @@ export default function SlideShow({
                     alt="overlay"
                     className={`absolute rounded-[4px] pointer-events-none ${
                       slide.customId === "for-class-funds"
-                        ? "top-[123px] sm:top-[120px] md:top-[95px] lg:top-[103px] xl:top-[120px] left-8 w-[200px] sm:w-[440px] md:w-[230px] lg:w-[350px] z-20"
+                        ? "top-[123px] sm:top-[120px] md:top-[95px] lg:top-[103px] xl:top-[120px] left-8 w-[200px] sm:w-[440px] md:w-[230px] lg:w-[350px] z-30"
                         : slide.customId === "for-capstone-thesis"
                         ? "bottom-16 sm:bottom-27 md:bottom-23 lg:bottom-21 xl:bottom-24 left-1/2 -translate-x-1/2 w-[255px] sm:w-[450px] md:w-[280px] lg:w-[350px] xl:w-[415px] z-30"
                         : "bottom-12 right-7 xl:w-[290px] lg:w-[250px] md:w-[210px] sm:w-[310px] w-[170px] z-30"
@@ -211,6 +251,7 @@ export default function SlideShow({
         ))}
       </motion.div>
 
+      {/* Pagination */}
       {slides.length > 1 && (
         <div className="absolute left-0 right-0 z-50 flex justify-center gap-3 cursor-default bottom-4">
           {slides.map((_, i) => (
@@ -218,7 +259,9 @@ export default function SlideShow({
               key={i}
               onClick={() => changeSlide(i, true)}
               className={`h-[10px] rounded-full transition-all duration-300 cursor-pointer ${
-                i === activeSlide ? "w-[25px] bg-white/90" : "w-[10px] bg-white/40 hover:bg-white/60"
+                i === activeSlide
+                  ? "w-[25px] bg-white/90"
+                  : "w-[10px] bg-white/40 hover:bg-white/60"
               }`}
             />
           ))}
