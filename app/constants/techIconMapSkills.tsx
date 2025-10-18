@@ -41,7 +41,7 @@ export const techIconMapSkills: Record<string, JSX.Element> = {
   Tailwind: <TechImg src="https://www.svgrepo.com/show/354431/tailwindcss-icon.svg" alt="Tailwind CSS" />,
   TypeScript: <TechImg src="https://www.svgrepo.com/show/354478/typescript-icon.svg" alt="TypeScript" />,
   "Next.js": <TechImg src="https://www.svgrepo.com/show/354113/nextjs-icon.svg" alt="Next.js" className="invert" />,
-  C: <TechImg src="/C.svg" alt="C" />,
+  C: <TechImg src="C.svg" alt="C" />,
   "C++": (
     <TechImg
       src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg"
