@@ -62,7 +62,7 @@ export default function CareerTimeline({ sections }: { sections: Section[] }) {
       <div className="flex flex-col xl:gap-30 lg:gap-20 md:gap-8  mx-auto md:flex-row
                       xl:max-w-6xl lg:max-w-[975px] md:max-w-[730px] sm:max-w-xl max-w-[370px] md:pl-[31px] md:pr-0 pl-[31px] pr-[31px]">
         {/* Left side */}
-        <div className="flex flex-col flex-1 space-y-20 pb-60">
+        <div className="flex flex-col flex-1 pb-0 space-y-20 sm:pb-20">
           <div className="hidden lg:mb-21 md:mb-12 md:block">
             <h2 className="font-extrabold text-white font-lexend xl:text-6xl lg:text-5xl md:text-4xl">
               Let’s dive in.
