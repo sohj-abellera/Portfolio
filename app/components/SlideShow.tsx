@@ -19,9 +19,11 @@ export default function SlideShow({
   const [isMobile, setIsMobile] = useState(false)
   const [activeVideo, setActiveVideo] = useState<string | null>(null)
   const [disableTransition, setDisableTransition] = useState(true)
+  const [isResizing, setIsResizing] = useState(false) // 🧩 new
   const totalSlides = slides.length
   const totalWidth = slideWidth * totalSlides
   const resumeTimer = useRef<NodeJS.Timeout | null>(null)
+  const resizeTimer = useRef<NodeJS.Timeout | null>(null) // 🧩 new
   const containerRef = useRef<HTMLDivElement>(null)
 
   // Disable transitions briefly on first mount
@@ -49,11 +51,17 @@ export default function SlideShow({
     if (index < 0) index = totalSlides - 1
     if (index >= totalSlides) index = 0
     setActiveSlide(index)
-    animate(x, -index * slideWidth, {
-      type: "spring",
-      stiffness: 250,
-      damping: 30,
-    })
+
+    // 🧩 skip animation if resizing
+    if (!isResizing) {
+      animate(x, -index * slideWidth, {
+        type: "spring",
+        stiffness: 250,
+        damping: 30,
+      })
+    } else {
+      x.set(-index * slideWidth)
+    }
 
     if (userAction) {
       setIsPaused(true)
@@ -77,11 +85,12 @@ export default function SlideShow({
     changeSlide(index, true)
   }
 
+  // 🧩 Auto-advance logic
   useEffect(() => {
     if (slides.length <= 1) return
     let interval: NodeJS.Timeout | null = null
 
-    if (!isPaused) {
+    if (!isPaused && !isResizing) {
       interval = setInterval(() => {
         setActiveSlide((prev) => {
           const next = (prev + 1) % totalSlides
@@ -98,8 +107,9 @@ export default function SlideShow({
     return () => {
       if (interval) clearInterval(interval)
     }
-  }, [slides.length, isPaused, slideWidth, totalSlides, x])
+  }, [slides.length, isPaused, isResizing, slideWidth, totalSlides, x])
 
+  // 🧩 Reset on section change
   useEffect(() => {
     const raf = requestAnimationFrame(() => {
       x.set(0)
@@ -108,17 +118,34 @@ export default function SlideShow({
     return () => cancelAnimationFrame(raf)
   }, [activeSection])
 
+  // 🧩 Handle resize and pause animation mid-resize
   useEffect(() => {
     const updateWidth = () => {
       if (containerRef.current) {
+        setIsResizing(true)
+        if (resizeTimer.current) clearTimeout(resizeTimer.current)
+
         const rect = containerRef.current.getBoundingClientRect()
         setSlideWidth(rect.width)
+
+        // Resume animations after resize settles
+        resizeTimer.current = setTimeout(() => {
+          setIsResizing(false)
+        }, 300) // wait for resize to stop
       }
     }
+
     updateWidth()
     window.addEventListener("resize", updateWidth)
     return () => window.removeEventListener("resize", updateWidth)
   }, [])
+
+  // 🧩 Realign slides instantly after resize
+  useEffect(() => {
+    if (slideWidth && !isResizing) {
+      animate(x, -activeSlide * slideWidth, { type: "tween", duration: 0 })
+    }
+  }, [slideWidth])
 
   return (
     <div
@@ -133,7 +160,7 @@ export default function SlideShow({
         backgroundPosition: "center",
       }}
       onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      onMouseLeave={() => !isResizing && setIsPaused(false)} // 🧩 only resume if not resizing
     >
       {/* Overlays */}
       <div
