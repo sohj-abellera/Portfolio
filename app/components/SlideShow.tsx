@@ -18,10 +18,17 @@ export default function SlideShow({
   const [slideWidth, setSlideWidth] = useState(480)
   const [isMobile, setIsMobile] = useState(false)
   const [activeVideo, setActiveVideo] = useState<string | null>(null)
+  const [disableTransition, setDisableTransition] = useState(true)
   const totalSlides = slides.length
   const totalWidth = slideWidth * totalSlides
   const resumeTimer = useRef<NodeJS.Timeout | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+
+  // Disable transitions briefly on first mount
+  useEffect(() => {
+    const t = setTimeout(() => setDisableTransition(false), 800)
+    return () => clearTimeout(t)
+  }, [])
 
   // Detect mobile screen (below md: 768px)
   useEffect(() => {
@@ -181,7 +188,9 @@ export default function SlideShow({
                 loop
                 muted
                 playsInline
-                className={`absolute object-cover rounded-[4px] ${
+                className={`absolute object-cover rounded-[4px] transition-all duration-300 ${
+                  disableTransition ? "![transition-none]" : ""
+                } ${
                   slide.customId === "for-class-funds"
                     ? "top-[110px] sm:top-[100px] md:top-[85px] xl:top-[100px] right-8 w-[95px] sm:w-[180px] md:w-[110px] lg:w-[130px] xl:w-[150px]"
                     : slide.customId === "for-capstone-thesis"
@@ -193,7 +202,12 @@ export default function SlideShow({
                     activeVideo === slide.video
                       ? "0px 8px 18px rgba(0, 0, 0, 0.45), 0px 4px 10px rgba(0, 0, 0, 0.25)"
                       : "0px 8px 16px rgba(0, 0, 0, 0.45), 0px -2px 6px rgba(0, 0, 0, 0.15)",
-                  zIndex: activeVideo === slide.video ? 45 : 20,
+                  zIndex:
+                    slide.customId === "for-class-funds"
+                      ? 50
+                      : activeVideo === slide.video
+                      ? 45
+                      : 20,
                   transform:
                     activeVideo === slide.video ? "scale(1.03)" : "scale(1)",
                   transition: "all 0.25s ease",
@@ -210,7 +224,8 @@ export default function SlideShow({
                         scale: 1.03,
                         boxShadow:
                           "0px 8px 18px rgba(0, 0, 0, 0.45), 0px 4px 10px rgba(0, 0, 0, 0.25)",
-                        zIndex: 45,
+                        zIndex:
+                          slide.customId === "for-class-funds" ? 50 : 45,
                       }
                     : undefined
                 }
@@ -228,12 +243,14 @@ export default function SlideShow({
                     alt="overlay"
                     className={`absolute rounded-[4px] pointer-events-none ${
                       slide.customId === "for-class-funds"
-                        ? "top-[123px] sm:top-[120px] md:top-[95px] lg:top-[103px] xl:top-[120px] left-8 w-[200px] sm:w-[440px] md:w-[230px] lg:w-[350px] z-30"
+                        ? "top-[123px] sm:top-[120px] md:top-[95px] lg:top-[103px] xl:top-[120px] left-8 w-[200px] sm:w-[440px] md:w-[230px] lg:w-[350px]"
                         : slide.customId === "for-capstone-thesis"
-                        ? "bottom-16 sm:bottom-27 md:bottom-23 lg:bottom-21 xl:bottom-24 left-1/2 -translate-x-1/2 w-[255px] sm:w-[450px] md:w-[280px] lg:w-[350px] xl:w-[415px] z-30"
-                        : "bottom-12 right-7 xl:w-[290px] lg:w-[250px] md:w-[210px] sm:w-[310px] w-[170px] z-30"
+                        ? "bottom-16 sm:bottom-27 md:bottom-23 lg:bottom-21 xl:bottom-24 left-1/2 -translate-x-1/2 w-[255px] sm:w-[450px] md:w-[280px] lg:w-[350px] xl:w-[415px]"
+                        : "bottom-12 right-7 xl:w-[290px] lg:w-[250px] md:w-[210px] sm:w-[310px] w-[170px]"
                     }`}
                     style={{
+                      zIndex:
+                        slide.customId === "for-class-funds" ? 10 : 30,
                       boxShadow:
                         "0px 8px 16px rgba(0, 0, 0, 0.45), 0px -2px 6px rgba(0, 0, 0, 0.15)",
                     }}
