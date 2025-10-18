@@ -17,28 +17,30 @@ export default function CareerTimeline({ sections }: { sections: Section[] }) {
 
   // --- track scroll position ---
   useEffect(() => {
-  const handleScroll = () => {
-    const midpoint = window.innerHeight / 2
+    const handleScroll = () => {
+      const isMobile = window.innerWidth < 640
+      const triggerPoint = isMobile
+        ? window.innerHeight * 0.8 // 20% from top
+        : window.innerHeight / 2   // center for larger screens
 
-    sectionRefs.current.forEach((ref, index) => {
-      if (!ref) return
-      const rect = ref.getBoundingClientRect()
-      const top = rect.top
-      const bottom = rect.bottom
+      sectionRefs.current.forEach((ref, index) => {
+        if (!ref) return
+        const rect = ref.getBoundingClientRect()
+        const { top, bottom } = rect
 
-      if (top <= midpoint && bottom >= midpoint) {
-        if (activeSection !== index) {
-          setActiveSection(index)
+        if (top <= triggerPoint && bottom >= triggerPoint) {
+          if (activeSection !== index) {
+            setActiveSection(index)
+          }
         }
-      }
-    })
-  }
+      })
+    }
 
     window.addEventListener("scroll", handleScroll)
-    // run once on mount to set initial active section
     handleScroll()
     return () => window.removeEventListener("scroll", handleScroll)
   }, [activeSection])
+
 
 
   return (
