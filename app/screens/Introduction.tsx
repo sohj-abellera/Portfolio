@@ -79,13 +79,13 @@ export default function Introduction({ timings = [] as BlockTiming[] }) {
           className="
             relative flex-shrink-0 w-full
             sm:max-w-full md:max-w-[350px] lg:max-w-[358px] xl:max-w-[360px]
-            sm:h-[470px] md:h-[438px] lg:h-[445px] xl:h-[447px]
+            sm:h-[470px] md:h-[440px] lg:h-[448px] xl:h-[450px]
             rounded-[7px] overflow-hidden
             shadow-[0_0_30px_rgba(255,255,255,0.15)]
           "
         >
           <img
-            src="/profile-pics/barong-shot.jpg"
+            src="profile-pics/barong-shot.jpg"
             alt="Carlo Joshua B. Abellera"
             className="w-full h-full object-cover object-top rounded-[7px]"
           />

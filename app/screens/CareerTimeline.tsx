@@ -17,28 +17,30 @@ export default function CareerTimeline({ sections }: { sections: Section[] }) {
 
   // --- track scroll position ---
   useEffect(() => {
-  const handleScroll = () => {
-    const midpoint = window.innerHeight / 2
+    const handleScroll = () => {
+      const isMobile = window.innerWidth < 640
+      const triggerPoint = isMobile
+        ? window.innerHeight * 0.8 // 20% from top
+        : window.innerHeight / 2   // center for larger screens
 
-    sectionRefs.current.forEach((ref, index) => {
-      if (!ref) return
-      const rect = ref.getBoundingClientRect()
-      const top = rect.top
-      const bottom = rect.bottom
+      sectionRefs.current.forEach((ref, index) => {
+        if (!ref) return
+        const rect = ref.getBoundingClientRect()
+        const { top, bottom } = rect
 
-      if (top <= midpoint && bottom >= midpoint) {
-        if (activeSection !== index) {
-          setActiveSection(index)
+        if (top <= triggerPoint && bottom >= triggerPoint) {
+          if (activeSection !== index) {
+            setActiveSection(index)
+          }
         }
-      }
-    })
-  }
+      })
+    }
 
     window.addEventListener("scroll", handleScroll)
-    // run once on mount to set initial active section
     handleScroll()
     return () => window.removeEventListener("scroll", handleScroll)
   }, [activeSection])
+
 
 
   return (
@@ -58,7 +60,7 @@ export default function CareerTimeline({ sections }: { sections: Section[] }) {
 
       {/* Layout */}
       <div className="flex flex-col xl:gap-30 lg:gap-20 md:gap-8  mx-auto md:flex-row
-                      xl:max-w-6xl lg:max-w-[975px] md:max-w-[730px] sm:max-w-xl max-w-[370px] md:pl-7">
+                      xl:max-w-6xl lg:max-w-[975px] md:max-w-[730px] sm:max-w-xl max-w-[370px] md:pl-[31px] md:pr-0 pl-[31px] pr-[31px]">
         {/* Left side */}
         <div className="flex flex-col flex-1 space-y-20 pb-60">
           <div className="hidden lg:mb-21 md:mb-12 md:block">
