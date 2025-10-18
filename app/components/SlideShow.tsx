@@ -23,12 +23,19 @@ export default function SlideShow({
   const resumeTimer = useRef<NodeJS.Timeout | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  // Detect mobile screen (sm and below)
+  // Detect mobile screen (below md: 768px)
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768)
     check()
     window.addEventListener("resize", check)
     return () => window.removeEventListener("resize", check)
+  }, [])
+
+  // Click outside to deactivate video
+  useEffect(() => {
+    const handleClickOutside = () => setActiveVideo(null)
+    window.addEventListener("click", handleClickOutside)
+    return () => window.removeEventListener("click", handleClickOutside)
   }, [])
 
   const changeSlide = (index: number, userAction = false) => {
@@ -166,62 +173,49 @@ export default function SlideShow({
             )}
 
             {/* Video */}
-{slide.video && (
-  <motion.video
-  src={slide.video}
-  preload="auto"
-  autoPlay
-  loop
-  muted
-  playsInline
-  className={`absolute object-cover rounded-[4px] ${
-    slide.customId === "for-class-funds"
-      ? "top-[110px] sm:top-[100px] md:top-[85px] xl:top-[100px] right-8 w-[95px] sm:w-[180px] md:w-[110px] lg:w-[130px] xl:w-[150px]"
-      : slide.customId === "for-capstone-thesis"
-      ? "top-[120px] left-[50px] w-[360px] hidden"
-      : "xl:top-[108px] lg:top-[100px] md:top-[90px] sm:top-[108px] top-[120px] left-7 xl:w-[400px] lg:w-[340px] md:w-[280px] sm:w-[430px] w-[240px]"
-  }`}
-  style={{
-    boxShadow:
-      "0px 8px 16px rgba(0, 0, 0, 0.45), 0px -2px 6px rgba(0, 0, 0, 0.15)",
-    zIndex:
-      isMobile && activeVideo === slide.video
-        ? 45 // mobile: tapped (on top)
-        : 20, // default
-  }}
-  onClick={() => {
-    if (isMobile) {
-      setActiveVideo(activeVideo === slide.video ? null : slide.video ?? null)
-    }
-  }}
-  whileHover={
-    !isMobile
-      ? {
-          scale: 1.03,
-          boxShadow:
-            "0px 8px 18px rgba(0, 0, 0, 0.45), 0px 4px 10px rgba(0, 0, 0, 0.25)",
-          zIndex: 45,
-        }
-      : undefined
-  }
-  animate={
-    isMobile && activeVideo === slide.video
-      ? {
-          scale: 1.03,
-          boxShadow:
-            "0px 8px 18px rgba(0, 0, 0, 0.45), 0px 4px 10px rgba(0, 0, 0, 0.25)",
-        }
-      : {
-          scale: 1,
-          boxShadow:
-            "0px 8px 16px rgba(0, 0, 0, 0.45), 0px -2px 6px rgba(0, 0, 0, 0.15)",
-        }
-  }
-  transition={{ type: "spring", stiffness: 220, damping: 18 }}
-/>
-
-)}
-
+            {slide.video && (
+              <motion.video
+                src={slide.video}
+                preload="auto"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className={`absolute object-cover rounded-[4px] ${
+                  slide.customId === "for-class-funds"
+                    ? "top-[110px] sm:top-[100px] md:top-[85px] xl:top-[100px] right-8 w-[95px] sm:w-[180px] md:w-[110px] lg:w-[130px] xl:w-[150px]"
+                    : slide.customId === "for-capstone-thesis"
+                    ? "top-[120px] left-[50px] w-[360px] hidden"
+                    : "xl:top-[108px] lg:top-[100px] md:top-[90px] sm:top-[108px] top-[120px] left-7 xl:w-[400px] lg:w-[340px] md:w-[280px] sm:w-[430px] w-[240px]"
+                }`}
+                style={{
+                  boxShadow:
+                    activeVideo === slide.video
+                      ? "0px 8px 18px rgba(0, 0, 0, 0.45), 0px 4px 10px rgba(0, 0, 0, 0.25)"
+                      : "0px 8px 16px rgba(0, 0, 0, 0.45), 0px -2px 6px rgba(0, 0, 0, 0.15)",
+                  zIndex: activeVideo === slide.video ? 45 : 20,
+                  transform:
+                    activeVideo === slide.video ? "scale(1.03)" : "scale(1)",
+                  transition: "all 0.25s ease",
+                }}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setActiveVideo(
+                    activeVideo === slide.video ? null : slide.video ?? null
+                  )
+                }}
+                whileHover={
+                  !isMobile && activeVideo !== slide.video
+                    ? {
+                        scale: 1.03,
+                        boxShadow:
+                          "0px 8px 18px rgba(0, 0, 0, 0.45), 0px 4px 10px rgba(0, 0, 0, 0.25)",
+                        zIndex: 45,
+                      }
+                    : undefined
+                }
+              />
+            )}
 
             {/* Overlay Images */}
             {slide.overlayImage && (
