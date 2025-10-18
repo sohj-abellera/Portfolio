@@ -44,7 +44,7 @@ export default function BouncingLogo({ logo }: { logo: string }) {
       <motion.img
         src={logo}
         alt="Bouncing internship logo"
-        className="absolute w-[140px] h-[80px] object-contain opacity-90 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+        className="absolute w-[110px] sm:w-[150px] md:w-[130px] lg:w-[150px] object-contain opacity-90 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
         style={{ x, y }}
       />
     </div>

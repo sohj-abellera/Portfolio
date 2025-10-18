@@ -88,7 +88,7 @@ export default function Home() {
                     bgColor: "#1e1e1e",
                     slides: [
                       {
-                        title: "Personal Info Website — My First HTML Project.",
+                        title: "Personal Info Website — My First Basic HTML Project.",
                         video: "career-timeline-stuff/first-projects/personal-info.mp4",
                         overlayImage: "career-timeline-stuff/first-projects/personal-info.png",
                       },
@@ -128,7 +128,7 @@ export default function Home() {
                     bgImage: "/career-timeline-stuff/bg-ui.jpg",
                     slides: [
                       {
-                        title: "My first project that actually looked how I pictured it.",
+                        title: "My first project that looked the way I imagined it would",
                         video: "career-timeline-stuff/market-square.mp4",
                         overlayImage: "career-timeline-stuff/market-square.PNG",
                       },
@@ -159,7 +159,7 @@ export default function Home() {
                     bgImage: "career-timeline-stuff/bg-ui.jpg",
                     slides: [
                       {
-                        title: "My first smol PHP project — where I barely used PHP",
+                        title: "My first smol PHP project — where I barely used PHP.",
                         video: "career-timeline-stuff/game-space.mp4",
                         overlayImage: "career-timeline-stuff/game-space.PNG",
                       },
@@ -192,7 +192,7 @@ export default function Home() {
                     bgImage: "/career-timeline-stuff/bg-ui.jpg",
                     slides: [
                       {
-                        title: "My first and last Android app I hope. Java is really hard",
+                        title: "My first and last Android app — Java is really hard.",
                         video: "career-timeline-stuff/class-funds.mp4",
                         overlayImage: "career-timeline-stuff/class-funds-4.PNG",
                         customId: "for-class-funds",
@@ -225,7 +225,7 @@ export default function Home() {
                     bgImage: "/career-timeline-stuff/bg-ui.jpg",
                     slides: [
                       {
-                        title: "My first real project — and the one I’d rebuild if I could.",
+                        title: "My first real project — I think I could've done better",
                         video: "career-timeline-stuff/sysarch.mp4",
                         overlayImage: "career-timeline-stuff/sysarch.PNG",
                       },
@@ -254,9 +254,9 @@ export default function Home() {
                     bgImage: "/career-timeline-stuff/bg-ui.jpg",
                     slides: [
                       {
-                        title: "Our capstone project — not the lead this time, just the debugger fixing what slipped through.",
+                        title: "Our capstone project — not the lead this time, just the debugger fixing errors.",
                         video: "career-timeline-stuff/sysarch.mp4",
-                        overlayImage: "career-timeline-stuff/capstone-thesis.png",
+                        overlayImage: "career-timeline-stuff/capstone.PNG",
                         customId: "for-capstone-thesis",
                       },
                     ],
@@ -329,17 +329,19 @@ export default function Home() {
 
                   containerConfig: {
                     bgImage: "/career-timeline-stuff/bg-tech.jpg",
-                    bgColor: "black",
+                    bgColor: "#12151c",
                     slides: [
                       {
-                        title: "My new portfolio using react, tailwind, and little bit of help hihi",
-                        video: "career-timeline-stuff/first-projects/personal-info.mp4",
-                        overlayImage: "career-timeline-stuff/first-projects/personal-info.png",
+                        title: "Rebuilding one of my thesis projects — applying best coding practices.",
+                        video: "career-timeline-stuff/sysarch.mp4",
+                        overlayImage: "career-timeline-stuff/basc.PNG",
+                        customId: "for-capstone-thesis",
                       },
                       {
-                        title: "Rebuilding one of my thesis projects into how I'd imagined it",
-                        video: "career-timeline-stuff/first-projects/christmas-forms.mp4",
-                        overlayImage: "career-timeline-stuff/first-projects/christmas-forms.PNG",
+                        title: "My new portfolio, built while experimenting with React and Tailwind.",
+                        video: "career-timeline-stuff/sysarch.mp4",
+                        overlayImage: "career-timeline-stuff/portfolio.PNG",
+                        customId: "for-capstone-thesis",
                       },
                     ],
                   },

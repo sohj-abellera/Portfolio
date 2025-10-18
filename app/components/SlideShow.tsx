@@ -20,6 +20,7 @@ export default function SlideShow({
   const totalWidth = slideWidth * totalSlides
   const resumeTimer = useRef<NodeJS.Timeout | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const [activeVideo, setActiveVideo] = useState<string | null>(null)
 
   const changeSlide = (index: number, userAction = false) => {
     if (index < 0) index = totalSlides - 1
@@ -54,21 +55,27 @@ export default function SlideShow({
   }
 
   useEffect(() => {
-    if (slides.length <= 1 || isPaused) return
-    const interval = setInterval(() => {
-      setActiveSlide((prev) => {
-        const next = (prev + 1) % totalSlides
-        animate(x, -next * slideWidth, {
-          type: "spring",
-          stiffness: 250,
-          damping: 30,
-        })
-        return next
-      })
-    }, 6000)
+    if (slides.length <= 1) return
+    let interval: NodeJS.Timeout | null = null
 
-    return () => clearInterval(interval)
-  }, [slides.length, isPaused, activeSection])
+    if (!isPaused) {
+      interval = setInterval(() => {
+        setActiveSlide((prev) => {
+          const next = (prev + 1) % totalSlides
+          animate(x, -next * slideWidth, {
+            type: "spring",
+            stiffness: 250,
+            damping: 30,
+          })
+          return next
+        })
+      }, 6000)
+    }
+
+    return () => {
+      if (interval) clearInterval(interval)
+    }
+  }, [slides.length, isPaused, slideWidth, totalSlides, x])
 
   useEffect(() => {
     const raf = requestAnimationFrame(() => {
@@ -94,8 +101,8 @@ export default function SlideShow({
     <div
       ref={containerRef}
       className="xl:w-[480px] lg:w-[420px] md:w-[350px] sm:w-full w-full
-                     xl:h-[470px] lg:h-[410px] md:h-[370px] sm:h-[565px] h-[360px]
-                     sticky lg:top-24 md:top-36 rounded-xl shadow-lg overflow-hidden select-none tracking-[0.2px]"
+                 xl:h-[470px] lg:h-[410px] md:h-[370px] sm:h-[505px] h-[360px]
+                 sticky lg:top-24 md:top-36 rounded-xl shadow-lg overflow-hidden select-none tracking-[0.2px]"
       style={{
         backgroundColor: bgColor || "rgba(255,255,255,0.05)",
         backgroundImage: bgImage ? `url(${bgImage})` : undefined,
@@ -135,10 +142,14 @@ export default function SlideShow({
         onDragStart={totalSlides > 1 ? () => setIsPaused(true) : undefined}
       >
         {slides.map((slide, i) => (
-          <div key={i} className="relative flex-shrink-0 h-full" style={{ width: `${slideWidth}px` }}>
+          <div
+            key={i}
+            className="relative flex-shrink-0 h-full"
+            style={{ width: `${slideWidth}px` }}
+          >
             {slide.title && (
               <div className="absolute z-10 top-7 left-9 right-6">
-                <h3 className="font-extrabold text-white xl:text-2xl md:text-[18px] sm:text-2xl text-[18px] font-lexend drop-shadow-md">
+                <h3 className="font-extrabold text-white xl:text-2xl lg:text-[21px] md:text-[19px] sm:text-2xl text-[18px] font-lexend drop-shadow-md">
                   {slide.title}
                 </h3>
               </div>
@@ -152,12 +163,12 @@ export default function SlideShow({
                 loop
                 muted
                 playsInline
-                className={`absolute object-cover rounded-[8px] ${
+                className={`absolute object-cover rounded-[4px] ${
                   slide.customId === "for-class-funds"
-                    ? "top-[87px] sm:top-[100px] md:top-[85px] xl:top-[100px] right-8 w-[110px] sm:w-[180px] md:w-[110px] lg:w-[130px] xl:w-[150px] z-30"
+                    ? "top-[110px] sm:top-[100px] md:top-[85px] xl:top-[100px] right-8 w-[95px] sm:w-[180px] md:w-[110px] lg:w-[130px] xl:w-[150px] z-30"
                     : slide.customId === "for-capstone-thesis"
                     ? "top-[120px] left-[50px] w-[360px] z-20 hidden"
-                    : "xl:top-[108px] md:top-[100px] sm:top-[108px] top-[95px] left-7 xl:w-[400px] lg:w-[340px] md:w-[280px] sm:w-[430px] w-[300px] z-20"
+                    : "xl:top-[108px] lg:top-[100px] md:top-[90px] sm:top-[108px] top-[120px] left-7 xl:w-[400px] lg:w-[340px] md:w-[280px] sm:w-[430px] w-[240px] z-20"
                 }`}
                 style={{
                   boxShadow:
@@ -183,10 +194,10 @@ export default function SlideShow({
                     alt="overlay"
                     className={`absolute rounded-[4px] pointer-events-none ${
                       slide.customId === "for-class-funds"
-                        ? "top-[100px] sm:top-[120px] md:top-[100px] xl:top-[120px] left-8 w-[265px] sm:w-[440px] md:w-[230px] lg:w-[350px] z-20"
+                        ? "top-[123px] sm:top-[120px] md:top-[95px] lg:top-[103px] xl:top-[120px] left-8 w-[200px] sm:w-[440px] md:w-[230px] lg:w-[350px] z-20"
                         : slide.customId === "for-capstone-thesis"
-                        ? "bottom-12 sm:bottom-35 md:bottom-20 lg:bottom-25 left-1/2 -translate-x-1/2 w-[300px] sm:w-[500px] md:w-[280px] lg:w-[350px] xl:w-[405px] z-30"
-                        : "bottom-12 right-7 xl:w-[290px] lg:w-[250px] md:w-[210px] sm:w-[310px] w-[180px] z-30"
+                        ? "bottom-16 sm:bottom-27 md:bottom-23 lg:bottom-21 xl:bottom-24 left-1/2 -translate-x-1/2 w-[255px] sm:w-[450px] md:w-[280px] lg:w-[350px] xl:w-[415px] z-30"
+                        : "bottom-12 right-7 xl:w-[290px] lg:w-[250px] md:w-[210px] sm:w-[310px] w-[170px] z-30"
                     }`}
                     style={{
                       boxShadow:
@@ -216,5 +227,3 @@ export default function SlideShow({
     </div>
   )
 }
-
-
