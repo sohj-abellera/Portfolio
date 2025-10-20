@@ -6,5 +6,5 @@ import tailwindcss from '@tailwindcss/vite'
 // ✅ this fixes asset and routing paths for GitHub Pages
 export default defineConfig({
   plugins: [react(), tsconfigPaths(), tailwindcss()],
-  base: '/Portfolio/', // <- this is your repo name!
+  base: '/portfolio/', // <- this is your repo name!
 })

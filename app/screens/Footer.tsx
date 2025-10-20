@@ -13,12 +13,12 @@ export default function Footer() {
       <div className="relative z-10 w-full px-4 pb-6 md:pb-12 xl:max-w-6xl lg:max-w-[975px] md:max-w-[730px] sm:max-w-xl max-w-[370px] mx-auto">
         {/* Social icons */}
         <div className="flex justify-center gap-5 pt-10 mb-3">
-          <a href="https://linkedin.com/in/carlojoshua-abellera" target="_blank" rel="noreferrer" className="transition-colors text-white/70 hover:text-white">
-            <FontAwesomeIcon icon={faLinkedin} className="md:w-[28px] md:h-[28px] w-[24px] h-[24px]" />
-          </a>
-
           <a href="https://github.com/sohj-abellera" target="_blank" rel="noreferrer" className="transition-colors text-white/70 hover:text-white">
             <FontAwesomeIcon icon={faGithub} className="md:w-[28px] md:h-[28px] w-[24px] h-[24px]" />
+          </a>
+
+          <a href="https://www.linkedin.com/in/carlojoshua-abellera/" target="_blank" rel="noreferrer" className="transition-colors text-white/70 hover:text-white">
+            <FontAwesomeIcon icon={faLinkedin} className="md:w-[28px] md:h-[28px] w-[24px] h-[24px]" />
           </a>
 
           <a href="mailto:carlojoshua.abellera.ph@gmail.com" className="transition-colors text-white/70 hover:text-white">

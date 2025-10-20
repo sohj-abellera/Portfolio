@@ -86,7 +86,7 @@ export default function Introduction({ timings = [] as BlockTiming[] }) {
           "
         >
           <img
-            src="profile-pics/barong-shost.jpg"
+            src="profile-pics/barong-shot.jpg"
             alt="Carlo Joshua B. Abellera"
             className="w-full h-full object-cover object-top rounded-[7px]"
             onError={(e) => {
@@ -156,7 +156,7 @@ export default function Introduction({ timings = [] as BlockTiming[] }) {
           >
             {/* GitHub – stays white */}
             <motion.a
-              href="https://github.com"
+              href="https://github.com/sohj-abellera"
               target="_blank"
               rel="noreferrer"
               whileHover={{ scale: 1.15 }}
@@ -168,7 +168,7 @@ export default function Introduction({ timings = [] as BlockTiming[] }) {
 
             {/* LinkedIn – LinkedIn blue */}
             <motion.a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/carlojoshua-abellera/"
               target="_blank"
               rel="noreferrer"
               whileHover={{ scale: 1.15, color: '#0A66C2' }}

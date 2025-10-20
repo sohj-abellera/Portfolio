@@ -8,11 +8,11 @@ export default function DescriptionPanel({
   descriptionStanzas: string[]
   takeaways?: string[]
 }) {
-  const [showTakeaways, setShowTakeaways] = useState(false)
+  const [showTakeaways, setShowTakeaways] = useState(true)
 
   const tabs = [
-    { id: "story", icon: <BookOpen size={18} />, title: "Story" },
     { id: "takeaways", icon: <Star size={18} />, title: "Takeaways" },
+    { id: "story", icon: <BookOpen size={18} />, title: "Story" },
   ]
 
   return (

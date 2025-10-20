@@ -43,7 +43,9 @@ export default function Screen_1({ text, speed = 100, onDone }: ScreenProps) {
   }, [text, speed, onDone]);
 
   return (
-    <div className="font-mono text-[18px] text-center whitespace-pre-wrap sm:text-2xl md:text-3xl">
+    <div className="font-mono text-3xl text-center whitespace-pre-wrap
+                    w-full xl:max-w-6xl lg:max-w-[975px] md:max-w-[730px] sm:max-w-xl max-w-[370px] 
+                    mx-auto">
       {displayed}
       <span className={`caret ${isDone ? "blink" : ""}`} />
     </div>

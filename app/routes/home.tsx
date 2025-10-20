@@ -69,16 +69,16 @@ export default function Home() {
                 // --- 1 ---
                 {
                   year: "Nov 2021 – Feb 2022",
-                  title: "Freshmen Projects",
+                  title: "Freshmen Projects – Where It All Began",
                   descriptionStanzas: [
-                    "Forced to become the “developer” of our first group project because no one else wanted to do it. I had zero idea what I was doing — just me, YouTube tutorials, and a lot of trial and error. Somehow, things worked, and I actually found myself enjoying the process.",
-                    "These early projects taught me how to explore, adapt, and experiment. I learned how to search for answers, combine snippets of code into something that felt mine, and discovered how satisfying it is to bring an idea to life, even if it looked terrible back then."
+                    "When our class was first tasked to create a website, I unexpectedly became the “developer” of our group — despite having no prior experience. With only YouTube tutorials and curiosity as my guide, I learned how to structure HTML, style layouts with CSS, and make elements work together through trial and error.",
+                    "These early experiments taught me how to think like a builder — to explore, adapt, and turn scattered snippets of code into something functional. It wasn’t perfect, but it sparked my genuine interest in web development and gave me the confidence to keep learning."
                   ],
                   takeaways: [
-                    "Learned the basics of HTML and CSS by following YouTube tutorials and mixing snippets into my own code.",
-                    "Discovered how much I enjoy building and designing, even without formal guidance.",
-                    "Realized that trial and error is one of the best ways to truly learn how things work.",
-                    "Gained confidence in exploring and experimenting instead of waiting to be taught."
+                    "Gained hands-on experience writing basic HTML and CSS layouts.",
+                    "Developed problem-solving habits through self-learning and experimentation.",
+                    "Learned to search, test, and adapt online code resources effectively.",
+                    "Discovered an early passion for building and designing user interfaces."
                   ],
 
                   github: "https://github.com/sohj-abellera/freshmen-projects",
@@ -109,16 +109,16 @@ export default function Home() {
                 // --- 2 ---
                 {
                   year: "Jun 2023 – Jul 2023",
-                  title: "Market Square: Learning Design for Real",
+                  title: "Market Square – Learning UI Design from Scratch",
                   descriptionStanzas: [
-                    "I volunteered to lead our group again for our Human-Computer Interaction subject, where we learned about layouts, colors, and usability. We already had the idea for “Market Square,” but not much of a visual plan yet.",
-                    "At first, my plan was to follow a YouTuber’s tutorial using Bootstrap — but it didn’t really click with me. I wanted something that felt more mine, so halfway through, I restarted and built everything from scratch. That’s when I started exploring design inspirations and ended up combining elements from Shopee and Carousell — giving it a fresh color theme that matched our “market” vibe."
+                    "For our Human-Computer Interaction subject, I led our group in building Market Square — a marketplace-themed website focused on usability and layout design. We started with a basic Bootstrap template, but halfway through I decided to rebuild everything from scratch to better understand spacing, color balance, and visual hierarchy.",
+                    "Inspired by Shopee and Carousell, I designed a fresh, market-style interface that matched our concept while keeping it simple and responsive. This project marked the first time I applied design principles intentionally instead of relying purely on tutorials, and it helped me appreciate how much visual clarity improves user experience."
                   ],
                   takeaways: [
-                    "Started to understand HTML and CSS fundamentals beyond just copying tutorials.",
-                    "Learned how to apply design principles like layout, spacing, and color balance.",
-                    "Discovered that rebuilding from scratch helps me truly understand how things work.",
-                    "Developed an eye for UI design and realized how much presentation affects usability."
+                    "Practiced turning layout concepts from HCI theory into real website structure.",
+                    "Learned responsive web design fundamentals through experimentation with Bootstrap and pure CSS.",
+                    "Discovered how consistent color and spacing create intuitive user interfaces.",
+                    "Strengthened my ability to rebuild from scratch and design with intent rather than imitation."
                   ],
 
                   github: "https://github.com/sohj-abellera/market-square",
@@ -139,20 +139,20 @@ export default function Home() {
                 // --- 3 ---
                 {
                   year: "Nov 2023 – Dec 2023",
-                  title: "GameSpace: Introduction to PHP",
+                  title: "GameSpace – My First Step into Backend Development",
                   descriptionStanzas: [
-                    "For our Web Development III subject, our group project focused on learning the basics of PHP — connecting pages to a database, handling authentication, and building simple backend features.",
-                    "While the goal was mainly to understand PHP and MySQL, I couldn’t help but give it a visual touch. I designed the interface to still feel cohesive and modern, giving it a “space market” theme that made it more fun to build and present.",
-                    "I think this was also around the time ChatGPT started becoming popular, so I tried using it to help me code… which explains why most of the functions don’t really work :("
+                    "For our Web Development III course, our group built GameSpace, a small e-commerce prototype that introduced me to PHP and MySQL. My main task was to handle the design and basic backend setup — implementing user authentication and simple session handling.",
+                    "While most of my time went into styling the space-themed interface, I learned how databases connect to web pages and how form handling actually works behind the scenes. It was also one of my first times using AI tools to help debug code, which taught me how to read, test, and fix functions on my own.",
+                    "Even though the system was simple, GameSpace helped me bridge the gap between design and functionality — understanding that good-looking pages still need solid logic underneath."
                   ],
                   takeaways: [
-                    "Learned the basics of PHP and MySQL — connecting pages, handling forms, and setting up simple authentication.",
-                    "Got my first glimpse of how frontend and backend communicate through databases.",
-                    "Discovered how helpful (and sometimes confusing) AI tools like ChatGPT can be in learning to code.",
-                    "Realized that functionality matters just as much as design — and that debugging is a skill on its own."
+                    "Gained foundational experience in connecting PHP and MySQL for authentication and data handling.",
+                    "Practiced structuring dynamic pages and working with form submissions.",
+                    "Strengthened debugging skills through guided problem-solving using AI assistance.",
+                    "Realized the importance of balancing design focus with backend functionality in full-stack development."
                   ],
 
-                  github: "https://github.com/sohj-abellera/gamespace",
+                  github: "https://github.com/sohj-abellera/game-space",
                   tech: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
                   containerConfig: {
                     bgColor: "#1a1c24",
@@ -170,22 +170,23 @@ export default function Home() {
                 // --- 4 ---
                 {
                   year: "May 2024 – Jun 2024",
-                  title: "ClassFunds — Android App Development Project",
+                  title: "ClassFunds – My First Mobile App Project",
                   descriptionStanzas: [
-                    "Built as a requirement for our Mobile Application Development subject, this was my first dive into Android Studio — and my first real app. I didn’t really understand Java at the time, but I relied on my basic programming instincts and approached every challenge one step at a time, with ChatGPT helping me figure out what to do next.",
-                    "I spent more time on design than functionality, obsessing over how everything looked and felt, even if it meant cutting a few planned features. Still, I managed to make it work — complete with authentication, database logic, and money tracking. It was my introduction to Firebase and how real apps handle data securely.",
-                    "Looking back, it wasn’t perfect — messy code, rushed structure, lots of guesswork — but it taught me how to think through real-world app problems, design with intent, and balance creativity with logic."
+                    "ClassFunds was my first dive into mobile app development using Android Studio.",
+                    "The concept came from a common classroom problem — tracking contributions and shared funds for activities. I designed a digital wallet app inspired by GCash that allowed users to record donations, expenses, and savings progress.",
+                    "Most of my time went into creating clean layouts and a cohesive color theme using Canva for the interface assets. Even though I relied on guided learning and AI assistance for Java and Firebase integration, I gained a solid understanding of how authentication, data storage, and user flow work in mobile apps.",
+                    "This project helped me appreciate the balance between design and functionality — and gave me the confidence to explore more advanced app logic afterward."
                   ],
                   takeaways: [
-                    "Learned the basics of Android Studio, Java, and Firebase integration.",
-                    "Discovered how mobile apps handle data, authentication, and user flow.",
-                    "Realized that design can be just as demanding as coding.",
-                    "Understood the value of planning before building — not every feature makes it to production.",
-                    "Learned to balance creativity with practicality when developing real apps."
+                    "Learned the basics of Android Studio, Java, and Firebase integration for authentication and data handling.",
+                    "Strengthened UI/UX design skills by creating layouts, icons, and branding assets.",
+                    "Discovered how real-world apps manage dynamic data and synchronization.",
+                    "Learned to iterate quickly by combining AI-assisted coding with hands-on debugging.",
+                    "Developed a deeper understanding of how design decisions affect usability in mobile environments."
                   ],
 
 
-                  github: "https://github.com/sohj-abellera/classfunds",
+                  github: "https://github.com/sohj-abellera/class-funds",
                   tech: ["Java", "Firebase", "Android Studio"],
                   containerConfig: {
                     bgColor: "#5A3B1C",
@@ -204,21 +205,21 @@ export default function Home() {
                 // --- 5 ---
                 {
                   year: "Oct 2024 – Jan 2025",
-                  title: "Inventory Management System — System Architecture Thesis",
+                  title: "Inventory Management System – System Architecture Thesis Project",
                   descriptionStanzas: [
-                    "My first real large-scale project with an actual company as our beneficiary. They needed a better way to track their sales, inventory, and deliveries — everything was done manually on paper. Our proposed system aimed to centralize it all, giving each user role its own interface and functions to reduce errors and make data management faster.",
-                    "We spent the first semester on planning and documentation, and the second on development using Agile. As one of the main developers, I quickly realized how hard it was to balance design and functionality. I kept redesigning the interfaces mid-development, unsure what should stay or go, which cost me time and focus.",
-                    "The final system ended up about 70% complete — functional, but far from what I envisioned. Still, it taught me valuable lessons about project planning, version control, and how important it is to define design and scope before touching a single line of code."
+                    "This project served as our thesis for the System Architecture course and was developed for Best Aluminum Sales Corps., a real business branch that needed help minimizing inventory discrepancies. Their existing process relied on manual paper records, so our goal was to design a centralized web system to track sales, inventory, and deliveries across departments.",
+                    "As project lead, I handled the overall system planning, user interface design, and database structure. I developed the core backend logic in PHP and MySQL, ensuring each role — from admin to delivery manager — had proper access and tracking features.",
+                    "While we faced challenges balancing design and deadlines, the experience taught me how to plan scope, structure data flow, and coordinate development efforts in a team setting. More importantly, it gave me a real understanding of how digital systems solve real business pain points."
                   ],
                   takeaways: [
-                    "Gained deeper experience in backend development — handling databases, user roles, and logic beyond just the UI.",
-                    "Experienced what it’s like to build a real system for an actual client with real requirements and expectations.",
-                    "Learned how challenging it is to balance design, functionality, and deadlines in a team setting.",
-                    "Realized the importance of sticking to a clear plan instead of redesigning mid-development.",
-                    "Finally understood why defining scope early and using version control properly saves everyone’s sanity."
+                    "Led the planning and development of a multi-role inventory and sales tracking system for a real company.",
+                    "Designed and implemented database schemas and role-based access logic using PHP and MySQL.",
+                    "Strengthened understanding of backend workflows, data validation, and user access control.",
+                    "Improved teamwork, task coordination, and scope management in an Agile-style setup.",
+                    "Learned to balance usability, design, and backend efficiency under tight academic timelines."
                   ],
 
-                  github: "https://github.com/sohj-abellera/inventory-system",
+                  github: "https://github.com/sohj-abellera/sysarch",
                   tech: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
                   containerConfig: {
                     bgColor: "#0C1B22",
@@ -239,13 +240,15 @@ export default function Home() {
                   title: "Freshmen Screening System — Capstone Thesis",
                   descriptionStanzas: [
                     "I wasn’t really involved much during production or design — I mostly helped during the planning phase, defining the features and flow of the system. Still, I ended up contributing a lot in debugging — fixing missing database columns, patching small logic errors, and cleaning up front-end inconsistencies.",
-                    "Even though I wasn’t the main developer this time, it taught me how important collaboration really is. We tried to split focus between two thesis projects at once, but I learned that sometimes, working together on one thing at a time is how you actually get the best results."
+                    "During planning, I helped define the system layout, user roles, and overall feature flow. Although I wasn’t the main developer this time, I played a key part in debugging — fixing PHP and MySQL logic errors, correcting database inconsistencies, and resolving front-end display issues.",
+                    "Working in a supporting role taught me the value of collaboration and focus. Managing two projects at once was difficult, but it helped me understand how every contribution, no matter how small, impacts a system’s stability and success."
                   ],
                   takeaways: [
-                    "Learned how to collaborate effectively and contribute even without leading the development.",
-                    "Discovered the value of focusing on one project at a time instead of spreading efforts too thin.",
-                    "Improved debugging skills — fixing database issues, logic errors, and front-end inconsistencies.",
-                    "Realized that teamwork and communication matter just as much as technical skill.",
+                    "Contributed to planning and defining key system features and user roles.",
+                    "Debugged PHP and MySQL components, resolving logic, database, and interface errors.",
+                    "Strengthened problem-solving and testing skills through hands-on issue tracking.",
+                    "Learned how to collaborate effectively in a multi-developer setup.",
+                    "Gained experience balancing priorities and maintaining code quality under pressure.",
                   ],
 
                   tech: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
@@ -268,18 +271,17 @@ export default function Home() {
                   year: "March 2025 – May 2025",
                   title: "Internship — Real Work, Real Pace",
                   descriptionStanzas: [
-                    "My internship at Transfer IT exposed me to real-world IT operations — from maintaining CCTV systems and assisting with PC setups to supporting daily technical tasks across multiple departments.",
-                    "I learned how companies manage standard software deployments, handle IT tickets, and maintain system security at scale.",
-                    "I also contributed to the Creative Department’s AI automation project, testing tools and presenting findings to management — which gave me a glimpse of how innovation happens inside a company.",
-                    "Overall, it taught me how to communicate, adapt, and solve problems in a fast-paced work environment."
+                    "During my internship at Transfer IT, I supported daily technical operations across multiple departments — from reformatting computers and installing OS/software to troubleshooting network and hardware issues.",
+                    "I worked closely with the IT Department and the Office of the President to manage asset tracking, update system records, and provide remote technical support for branch offices. Later, I was transferred to the Creative Department to assist in testing an AI-powered workflow automation tool aimed at streamlining design tasks.",
+                    "This experience gave me real-world exposure to IT processes, system management, and workplace communication — helping me build the discipline and adaptability needed for professional development roles."
                   ],
 
                   takeaways: [
-                    "Gained hands-on experience in hardware maintenance, software installation, and IT support operations.",
-                    "Learned how to coordinate with different departments and handle real technical requests from end-users.",
-                    "Improved troubleshooting and diagnostic skills through on-site and remote issue handling.",
-                    "Explored how AI tools can be used to automate creative workflows and increase productivity.",
-                    "Realized the importance of adaptability, communication, and teamwork in fast-paced environments.",
+                    "Assisted with hardware maintenance, OS setup, and software deployment across multiple branches.",
+                    "Provided front-line technical support, troubleshooting hardware and software issues under supervision.",
+                    "Collaborated with executives and IT staff for asset tracking and portal data updates.",
+                    "Tested AI-driven workflow tools, preparing reports and slide presentations for executive review.",
+                    "Strengthened adaptability, communication, and documentation skills in a professional setting.",
                   ],
 
                   containerConfig: {
@@ -297,33 +299,32 @@ export default function Home() {
                 // --- 8 ---
                 {
                   year: "Sep 2025 – Present",
-                  title: "Learning by Rebuilding",
+                  title: "Learning by Rebuilding – Strengthening My Foundation",
                   descriptionStanzas: [
-                    "After graduation, I decided to revisit what I’d built before — but this time, with real understanding.",
-                    "I started properly learning through FreeCodeCamp while rebuilding my old Inventory System from scratch using only HTML, CSS, and JavaScript — no AI, no frameworks — just me applying what I’ve learned so far.",
-                    "I haven’t gone far yet — still polishing the login page and making it responsive — but it’s been helping me understand structure, layout, and flow much better than before.",
-                    "At the same time, I began building this portfolio with React, combining what I already know with what I’m still learning — using AI not as a crutch, but as a creative partner.",
-                    "This phase is all about rediscovery — learning fundamentals again, exploring better structure, and designing with purpose.",
+                    "After graduation, I wanted to understand why my projects worked — not just how I got them to run. So I began revisiting my older systems, this time rebuilding everything from the ground up using pure HTML, CSS, and JavaScript. No AI shortcuts. No frameworks. Just fundamentals.",
+                    "Starting with my old Inventory Management System, I focused on building cleaner code, better structure, and more responsive layouts. It felt like rediscovering web development through a new lens — applying everything I’ve learned and unlearning my old habits.",
+                    "At the same time, I began creating this very portfolio using React and Tailwind CSS, integrating animation and component logic while experimenting with design and storytelling. I used AI as a creative assistant — not as a crutch — helping me refine structure and improve my understanding of front-end architecture.",
+                    "This phase became more than just “relearning.” It’s been about maturity — writing code with intention, designing with empathy, and building a personal workflow that feels truly my own.",
                   ],
 
                   takeaways: [
-                    "Started rebuilding my old projects from scratch to strengthen my fundamentals.",
-                    "Focused on writing cleaner HTML, CSS, and JavaScript — no shortcuts, no frameworks.",
-                    "Learned the importance of responsive design and layout structure through trial and error.",
-                    "Discovered how revisiting old work with new knowledge changes how I approach problems.",
-                    "Realized that learning never really ends — it just evolves with every project.",
+                    "Strengthened my core understanding of HTML, CSS, and JavaScript through rebuilding past projects.",
+                    "Learned to approach front-end development with structured logic and scalable design principles.",
+                    "Developed a deeper appreciation for responsive design, accessibility, and user-centered layouts.",
+                    "Improved my ability to plan, design, and execute projects independently — from concept to deployment.",
+                    "Practiced balancing creativity and technical discipline by using AI tools for insight, not dependency.",
                   ],
 
                   subProjects: [
                       {
                         label: "",
                         tech: ["HTML", "CSS", "JavaScript"],
-                        github: "https://github.com/yourrepo/system-rebuild"
+                        github: "https://github.com/sohj-abellera/basc-portal"
                       },
                       {
                         label: "+",
-                        tech: ["React", "Tailwind", "Framer Motion"],
-                        github: "https://github.com/yourrepo/portfolio"
+                        tech: ["React", "Tailwind"],
+                        github: "https://github.com/sohj-abellera/porfolio"
                       },
                     ],
 
