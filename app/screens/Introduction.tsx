@@ -82,12 +82,16 @@ export default function Introduction({ timings = [] as BlockTiming[] }) {
             sm:h-[470px] md:h-[440px] lg:h-[448px] xl:h-[450px]
             rounded-[7px] overflow-hidden
             shadow-[0_0_30px_rgba(255,255,255,0.15)]
+            bg-white/1
           "
         >
           <img
-            src="profile-pics/barong-shot.jpg"
+            src="profile-pics/barong-shost.jpg"
             alt="Carlo Joshua B. Abellera"
             className="w-full h-full object-cover object-top rounded-[7px]"
+            onError={(e) => {
+              e.currentTarget.style.display = "none"; 
+            }}
           />
 
           {/* overlay layers */}
