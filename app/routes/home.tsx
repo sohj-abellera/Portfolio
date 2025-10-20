@@ -80,8 +80,6 @@ export default function Home() {
                     "Learned to search, test, and adapt online code resources effectively.",
                     "Discovered an early passion for building and designing user interfaces."
                   ],
-
-                  github: "https://github.com/sohj-abellera/freshmen-projects",
                   tech: ["HTML", "CSS"],
                   containerConfig: {
                     bgImage: "career-timeline-stuff/bg-tech.jpg",
