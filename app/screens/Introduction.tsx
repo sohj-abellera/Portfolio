@@ -190,7 +190,7 @@ export default function Introduction({ timings = [] as BlockTiming[] }) {
 
             {/* Resume – soft green */}
             <motion.a
-              href="/resume.pdf"
+              href="resume.pdf"
               target="_blank"
               rel="noreferrer"
               whileHover={{ scale: 1.15, color: '#4ade80' }}

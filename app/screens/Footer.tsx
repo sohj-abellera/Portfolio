@@ -25,7 +25,7 @@ export default function Footer() {
             <Mail className="md:w-[28px] md:h-[28px] w-[24px] h-[24px]" />
           </a>
 
-          <a href="/resume.pdf" download className="transition-colors text-white/70 hover:text-white">
+          <a href="resume.pdf" download className="transition-colors text-white/70 hover:text-white">
             <FileDown className="md:w-[28px] md:h-[28px] w-[24px] h-[24px]" />
           </a>
         </div>
